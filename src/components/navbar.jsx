@@ -7,54 +7,63 @@ function Navbar() {
   const [activeTab, setActiveTab] = useState('home');
   const [isOpen, setIsOpen] = useState(false);
 
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const userRole = localStorage.getItem('userRole');
+
   const handleNavClick = (tab) => {
     setActiveTab(tab);
     setIsOpen(false);
   };
 
   return (
-    <header className="navbar-header">
-      <div className="navbar-container">
-        <NavLink
-          to="/"
-          className="navbar-brand-group"
-          onClick={() => handleNavClick('home')}
-        >
-          <img src={logo} alt="Logo" className="navbar-logo" />
-          <span className="navbar-brand">Doorway To Dignity</span>
+    <header className='navbar-header'>
+      <div className='navbar-container'>
+        <NavLink to='/' className='navbar-brand-group' onClick={() => handleNavClick('home')}>
+          <img src={logo} alt='Logo' className='navbar-logo' />
+          <span className='navbar-brand'>Doorway To Dignity</span>
         </NavLink>
 
-        <div className="navbar-right">
+        <div className='navbar-right'>
           <NavLink
-            to="/"
+            to='/'
             className={`nav-link ${activeTab === 'home' ? 'active' : ''}`}
             onClick={() => handleNavClick('home')}
           >
             Home
           </NavLink>
 
-          <NavLink
-            to="/faq"
-            className={`nav-link ${activeTab === 'faq' ? 'active' : ''}`}
-            onClick={() => handleNavClick('faq')}
-          >
-            FAQ
-          </NavLink>
+          {userRole !== 'admin' && (
+            <NavLink
+              to='/faq'
+              className={`nav-link ${activeTab === 'faq' ? 'active' : ''}`}
+              onClick={() => handleNavClick('faq')}
+            >
+              FAQ
+            </NavLink>
+          )}
 
-          <NavLink
-            to="/profile"
-            className={`nav-icon-link ${activeTab === 'profile' ? 'active' : ''}`}
-            onClick={() => handleNavClick('profile')}
-            aria-label="Profile"
-          >
-            <i className="fi fi-sr-user"></i>
-          </NavLink>
+          {isAuthenticated && userRole === 'volunteer' && (
+            <NavLink
+              to='/profile'
+              className={`nav-icon-link ${activeTab === 'profile' ? 'active' : ''}`}
+              onClick={() => handleNavClick('profile')}
+              aria-label='Profile'
+            >
+              <i className='fi fi-sr-user'></i>
+            </NavLink>
+          )}
+
+          {!isAuthenticated && (
+            <NavLink to='/signup' className='nav-link' onClick={() => handleNavClick('signup')}>
+              Sign Up
+            </NavLink>
+          )}
         </div>
 
         <button
-          className="navbar-toggle-btn"
+          className='navbar-toggle-btn'
           onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle navigation"
+          aria-label='Toggle navigation'
         >
           {isOpen ? '✕' : '☰'}
         </button>
@@ -62,29 +71,39 @@ function Navbar() {
 
       <div className={`navbar-mobile-drawer ${isOpen ? 'open' : ''}`}>
         <NavLink
-          to="/"
+          to='/'
           className={`nav-link ${activeTab === 'home' ? 'active' : ''}`}
           onClick={() => handleNavClick('home')}
         >
           Home
         </NavLink>
 
-        <NavLink
-          to="/faq"
-          className={`nav-link ${activeTab === 'faq' ? 'active' : ''}`}
-          onClick={() => handleNavClick('faq')}
-        >
-          FAQ
-        </NavLink>
+        {userRole !== 'admin' && (
+          <NavLink
+            to='/faq'
+            className={`nav-link ${activeTab === 'faq' ? 'active' : ''}`}
+            onClick={() => handleNavClick('faq')}
+          >
+            FAQ
+          </NavLink>
+        )}
 
-        <NavLink
-          to="/profile"
-          className={`nav-icon-link ${activeTab === 'profile' ? 'active' : ''}`}
-          onClick={() => handleNavClick('profile')}
-          aria-label="Profile"
-        >
-          <i className="fi fi-sr-user"></i>
-        </NavLink>
+        {isAuthenticated && userRole === 'volunteer' && (
+          <NavLink
+            to='/profile'
+            className={`nav-icon-link ${activeTab === 'profile' ? 'active' : ''}`}
+            onClick={() => handleNavClick('profile')}
+            aria-label='Profile'
+          >
+            <i className='fi fi-sr-user'></i>
+          </NavLink>
+        )}
+
+        {!isAuthenticated && (
+          <NavLink to='/signup' className='nav-link' onClick={() => handleNavClick('signup')}>
+            Sign Up
+          </NavLink>
+        )}
       </div>
     </header>
   );

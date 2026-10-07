@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import '../css/signup.css';
 import joinImg from '../assets/img/signup.png';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Grainient from '../components/gradient.jsx';
 import AnimatedBackground from '../components/animatedbackground.jsx';
 
-
 function Signup() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -29,21 +29,45 @@ function Signup() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('userRole', 'volunteer');
+    localStorage.setItem('user', JSON.stringify(formData));
+
+    navigate('/');
   };
 
   return (
     <>
-
-      <div style={{ width: '100%', height: '100%', position: 'fixed', top: 0, left: 0, zIndex: 0, pointerEvents: 'none' }}>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}
+      >
         <AnimatedBackground />
       </div>
 
-      <div style={{ width: '100%', height: '100%', position: 'fixed', top: 0, left: 0, zIndex: -1, pointerEvents: 'none' }}>
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: -1,
+          pointerEvents: 'none',
+        }}
+      >
         <Grainient
           color1='#E9E3D5'
           color2='#13C0D1'
           color3='#E9E3D5'
-          timeSpeed={0.5}
+          timeSpeed={1.0}
           colorBalance={0}
           warpStrength={4}
           warpFrequency={0}
@@ -66,6 +90,9 @@ function Signup() {
       </div>
       <div className='signup-page'>
         <div className='signup-card'>
+          <Link to='/' className='card-close-btn' aria-label='Close'>
+            ✕
+          </Link>
           <div className='signup-columns'>
             <div className='signup-left'>
               <h1 className='signup-title'>Sign Up</h1>
@@ -253,6 +280,9 @@ function Signup() {
                   </p>
                 </div>
               </div>
+              <p className='why-join-faq-hint'>
+                Have questions before joining? Check our <Link to='/faq'>FAQ</Link>
+              </p>
             </div>
           </div>
         </div>

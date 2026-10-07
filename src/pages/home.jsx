@@ -1,10 +1,30 @@
 import hero from '../assets/img/hero.png';
 import logo from '../assets/img/Icon.png';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/navbar.jsx';
+import VolunteerPage from './volunteer.jsx';
+import AdminPage from './admin.jsx';
+import PublicPage from './public.jsx';
 
 function Home() {
-  return (
-    <div className='home-page'>
+  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+  const userRole = localStorage.getItem('userRole');
+
+  if (!isAuthenticated) {
+    return <PublicLanding />;
+  }
+
+  if (userRole === 'admin') {
+    return <AdminDashboard />;
+  }
+
+  return <VolunteerDashboard />;
+}
+
+return (
+  <div className='home-page'>
+    <Navbar />
+
     <main className='hero-section'>
       <img src={hero} alt='Background' className='hero-bg-image' />
 
@@ -23,8 +43,7 @@ function Home() {
         </div>
       </div>
     </main>
-    </div>
-  );
-}
+  </div>
+);
 
 export default Home;

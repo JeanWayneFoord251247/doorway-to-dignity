@@ -1,0 +1,127 @@
+@import url('https://cdn-uicons.flaticon.com/4.0.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
+
+.navbar-header {
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 12px #00000014;
+  z-index: 999;
+}
+
+.navbar-container {
+  max-width: 1280px;
+  margin: 0px auto;
+  padding: 0px 24px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.navbar-brand-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+.navbar-brand {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: -0.5px;
+  white-space: nowrap;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 70px;
+}
+
+.nav-link {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  text-decoration: none;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #00000000;
+  transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: #00828a;
+  border-bottom: 2px solid #00828a;
+}
+
+.nav-icon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #111827;
+  padding-bottom: 4px;
+  border-bottom: 2px solid #00000000;
+  transition: color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.nav-icon-link i {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.nav-icon-link:hover,
+.nav-icon-link.active {
+  color: #00828a;
+  border-bottom: 2px solid #00828a;
+}
+
+.navbar-toggle-btn {
+  display: none;
+  background-color: #00000000;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 20px;
+  line-height: 1;
+  color: #111827;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.navbar-mobile-drawer {
+  display: none;
+  flex-direction: column;
+  background-color: #ffffff;
+  border-top: 1px solid #e5e7eb;
+  padding: 16px 24px;
+  gap: 16px;
+}
+
+.mobile-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .navbar-right {
+    display: none;
+  }
+
+  .navbar-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar-mobile-drawer.open {
+    display: flex;
+  }
+}

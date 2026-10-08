@@ -6,6 +6,7 @@ import Grainient from '../components/gradient.jsx';
 import AnimatedBackground from '../components/animatedbackground.jsx';
 
 function Signup() {
+  const [isClosing, setIsClosing] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     fullName: '',
@@ -34,6 +35,14 @@ function Signup() {
     localStorage.setItem('user', JSON.stringify(formData));
 
     navigate('/');
+  };
+
+  const handleClose = (e) => {
+    e.preventDefault();
+    setIsClosing(true);
+    setTimeout(() => {
+      navigate('/');
+    }, 200);
   };
 
   return (
@@ -88,11 +97,11 @@ function Signup() {
           zoom={0.9}
         />
       </div>
-      <div className='signup-page'>
-        <div className='signup-card'>
-          <Link to='/' className='card-close-btn' aria-label='Close'>
+      <div className={`signup-page ${isClosing ? 'page-exit' : ''}`}>
+        <div className={`signup-card ${isClosing ? 'card-exit' : ''}`}>
+          <button type='button' className='card-close-btn' onClick={handleClose} aria-label='close'>
             ✕
-          </Link>
+          </button>
           <div className='signup-columns'>
             <div className='signup-left'>
               <h1 className='signup-title'>Sign Up</h1>

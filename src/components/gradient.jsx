@@ -109,9 +109,6 @@ void main(){
 }
 `;
 
-
-// Keep renderer/program alive across re-renders so Effect 2 can update
-// uniforms without ever rebuilding the WebGL context.
 const ctxMap = new WeakMap();
 
 const Grainient = ({

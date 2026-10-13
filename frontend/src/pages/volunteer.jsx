@@ -87,9 +87,7 @@ function VolunteerPage() {
 
       alert('Successfully withdrawn from event!');
 
-      setEvents((prev) =>
-        prev.map((evt) => (evt._id === eventId ? data.event : evt))
-      );
+      setEvents((prev) => prev.map((evt) => (evt._id === eventId ? data.event : evt)));
     } catch (err) {
       alert(err.message);
     }

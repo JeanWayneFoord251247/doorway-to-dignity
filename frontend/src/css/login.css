@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
 
+
 .login-page {
   width: 100%;
   min-height: 100vh;
@@ -127,7 +128,9 @@
   background-color: #ffffff;
   box-sizing: border-box;
   outline: none;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
 }
 
 .login-page .form-input:focus {
@@ -197,7 +200,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease;
 }
 
 .btn-login-primary:hover {
@@ -223,7 +228,10 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .btn-signup-outline:hover {

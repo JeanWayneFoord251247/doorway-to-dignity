@@ -6,7 +6,7 @@ import Login from './pages/login.jsx';
 import Volunteer from './pages/volunteer.jsx';
 import Admin from './pages/admin.jsx';
 import EventEditor from './pages/eventeditor.jsx';
-import Account from './pages/account.jsx'
+import Account from './pages/account.jsx';
 import { useAutoLogout } from './hooks/useautologout.jsx';
 
 function App() {
@@ -16,20 +16,17 @@ function App() {
     <div className='app-container'>
       <Routes>
         <Route path='/' element={<Home />} />
-
         <Route path='/signup' element={<Signup />} />
-
         <Route path='/login' element={<Login />} />
-
         <Route path='/volunteer' element={<Volunteer />} />
-
         <Route path='/admin' element={<Admin />} />
+
+        <Route path='/admin/events/create' element={<EventEditor isEdit={false} />} />
+        <Route path='/admin/events/edit/:id' element={<EventEditor isEdit={true} />} />
 
         <Route path='/admin/create-event' element={<EventEditor isEdit={false} />} />
 
-        <Route path='/admin/edit-event' element={<EventEditor isEdit={true} />} />
-
-        <Route path='/account' element={< Account />}/>
+        <Route path='/account' element={<Account />} />
       </Routes>
     </div>
   );

@@ -35,8 +35,8 @@ function EventEditor({ isEdit = false }) {
           if (!res.ok) throw new Error('Event not found');
           const data = await res.json();
 
-          const timeParts = (data.time || '10am - 5pm').split(' - ');
-          const dateParts = (data.date || '27 August 2026').split(' ');
+          const timeParts = (data.time || '10am - 5pm').split('-').map((s) => s.trim());
+          const dateParts = (data.date || '27 August 2026').split(' ').map((s) => s.trim());
 
           setFormData({
             title: data.title || '',
@@ -132,9 +132,10 @@ function EventEditor({ isEdit = false }) {
     };
 
     try {
-      const endpoint = isEdit && id
-        ? `http://localhost:5000/api/events/${id}`
-        : 'http://localhost:5000/api/events';
+      const endpoint =
+        isEdit && id
+          ? `http://localhost:5000/api/events/${id}`
+          : 'http://localhost:5000/api/events';
 
       const method = isEdit && id ? 'PUT' : 'POST';
 
@@ -200,7 +201,9 @@ function EventEditor({ isEdit = false }) {
               <div className="editor-top-grid">
                 <div className="form-col left-col">
                   <div className="input-group">
-                    <label className="form-label" htmlFor="title">Event Name</label>
+                    <label className="form-label" htmlFor="title">
+                      Event Name
+                    </label>
                     <input
                       id="title"
                       name="title"
@@ -214,7 +217,9 @@ function EventEditor({ isEdit = false }) {
                   </div>
 
                   <div className="input-group">
-                    <label className="form-label" htmlFor="location">Location</label>
+                    <label className="form-label" htmlFor="location">
+                      Location
+                    </label>
                     <input
                       id="location"
                       name="location"
@@ -298,7 +303,9 @@ function EventEditor({ isEdit = false }) {
                   </div>
 
                   <div className="input-group">
-                    <label className="form-label" htmlFor="volunteersMax">Volunteer Capacity</label>
+                    <label className="form-label" htmlFor="volunteersMax">
+                      Volunteer Capacity
+                    </label>
                     <input
                       id="volunteersMax"
                       name="volunteersMax"
@@ -313,7 +320,9 @@ function EventEditor({ isEdit = false }) {
 
                 <div className="form-col middle-col">
                   <div className="input-group full-height-group">
-                    <label className="form-label" htmlFor="description">Description</label>
+                    <label className="form-label" htmlFor="description">
+                      Description
+                    </label>
                     <textarea
                       id="description"
                       name="description"
@@ -372,12 +381,7 @@ function EventEditor({ isEdit = false }) {
                 <p className="banner-sublabel">Upload the banner image for this event</p>
 
                 <label className="banner-upload-box">
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageFile}
-                    hidden
-                  />
+                  <input type="file" accept="image/*" onChange={handleImageFile} hidden />
                   {imagePreview ? (
                     <img
                       src={imagePreview}

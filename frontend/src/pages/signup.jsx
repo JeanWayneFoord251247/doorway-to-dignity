@@ -19,6 +19,8 @@ function Signup() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -28,15 +30,49 @@ function Signup() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    localStorage.setItem('isAuthenticated', 'true');
-    localStorage.setItem('userRole', 'volunteer');
-    localStorage.setItem('user', JSON.stringify(formData));
+    setErrorMessage('');
 
-    navigate('/');
+    if (formData.password !== formData.confirmPassword) {
+      setErrorMessage('Passwords do not match');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          phone: `${formData.phoneCode} ${formData.phoneNumber}`,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Signup failed');
+      }
+
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data));
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('userRole', data.role);
+
+      navigate(data.role === 'admin' ? '/admin' : '/volunteer');
+    } catch (err) {
+      setErrorMessage(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
-
   const handleClose = (e) => {
     e.preventDefault();
     setIsClosing(true);
@@ -106,6 +142,7 @@ function Signup() {
             <div className='signup-left'>
               <h1 className='signup-title'>Sign Up</h1>
               <form className='signup-form' onSubmit={handleSubmit}>
+                {errorMessage && <div className='signup-error-banner'>{errorMessage}</div>}
                 <div className='form-group'>
                   <label htmlFor='fullName' className='form-label'>
                     Full Name
@@ -234,8 +271,8 @@ function Signup() {
                 </div>
 
                 <div className='form-actions'>
-                  <button type='submit' className='btn-signup-primary'>
-                    Sign Up
+                  <button type='submit' className='btn-signup-primary' disabled={isLoading}>
+                    {isLoading ? 'Creating Account...' : 'Sign Up'}
                   </button>
                   <Link to='/login' className='btn-login-secondary'>
                     Log In

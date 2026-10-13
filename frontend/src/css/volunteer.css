@@ -1,6 +1,179 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
 @import 'tailwindcss';
 
+.btn-card-inline-edit {
+  background: transparent;
+  border: 1px solid #00adb5;
+  color: #00adb5;
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 6px;
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+.btn-card-inline-edit:hover {
+  background: #00adb5;
+  color: #ffffff;
+}
+
+.btn-detail-edit {
+  background: #00adb5;
+  color: #ffffff;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 9999px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: auto;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-detail-edit:hover {
+  background: #008f96;
+  transform: scale(1.04);
+}
+
+.event-actions-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.btn-event-leave {
+  background: transparent;
+  border: 1.5px solid #fca5a5;
+  color: #ef4444;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-event-leave:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+}
+
+.upcoming-status-text,
+.available-status-text,
+.admin-loading-text {
+  padding: 24px;
+  color: #64748b;
+  font-size: 13px;
+  margin: 0;
+  text-align: center;
+}
+
+.upcoming-empty-state,
+.available-empty-state,
+.admin-empty-state {
+  padding: 36px 20px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 18px;
+  color: #64748b;
+}
+
+.available-empty-text {
+  margin: 0;
+  font-weight: 600;
+  color: #334155;
+}
+
+.available-empty-sub {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+.detail-role-selection {
+  margin-bottom: 16px;
+}
+
+.role-dropdown-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.role-dropdown-select {
+  width: 100%;
+  max-width: 280px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1.5px solid #111827;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  outline: none;
+  background: #ffffff;
+  color: #111827;
+  transition: border-color 0.2s ease;
+}
+
+.role-dropdown-select:focus {
+  border-color: #00bcd4;
+}
+
+.admin-detail-btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.btn-admin-edit {
+  background: #00adb5;
+  color: #ffffff;
+  border: none;
+  border-radius: 9999px;
+  padding: 10px 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.btn-admin-edit:hover {
+  background: #008f96;
+  transform: scale(1.02);
+}
+
+.btn-admin-delete {
+  background: transparent;
+  border: 1.5px solid #ef4444;
+  color: #ef4444;
+  border-radius: 9999px;
+  padding: 10px 16px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-admin-delete:hover {
+  background: #fef2f2;
+}
+
+.roster-empty-cell {
+  font-style: italic;
+  color: #94a3b8;
+}
+
 .volunteer-page {
   position: relative;
   min-height: 100vh;
@@ -149,6 +322,7 @@
   border: 1.5px solid #00a8cc;
   background-color: transparent;
   color: #00a8cc;
+  font-family: 'Poppins', sans-serif;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -565,10 +739,16 @@
   transition: all 0.15s ease;
 }
 
-.btn-detail-signup:hover {
+.btn-detail-signup:hover:not(:disabled) {
   background-color: #00838f;
   color: #ffffff;
   transform: scale(1.04);
+}
+
+.btn-detail-signup:disabled {
+  border-color: #9ca3af;
+  color: #9ca3af;
+  cursor: not-allowed;
 }
 
 .detail-image-col {
@@ -582,6 +762,7 @@
   height: 100%;
   max-height: 340px;
   object-fit: cover;
+  object-position: center;
   border-radius: 18px;
   transition: transform 0.25s ease;
 }
@@ -634,9 +815,11 @@
 
   .detail-meta-footer {
     flex-wrap: wrap;
+    gap: 12px;
   }
 
-  .btn-detail-signup {
+  .btn-detail-signup,
+  .btn-detail-edit {
     width: 100%;
     margin-left: 0;
     margin-top: 10px;

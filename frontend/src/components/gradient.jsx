@@ -4,10 +4,14 @@ import { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Triangle } from 'ogl';
 import '../css/grainient.css';
 
-const hexToRgb = hex => {
+const hexToRgb = (hex) => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (!result) return [1, 1, 1];
-  return [parseInt(result[1], 16) / 255, parseInt(result[2], 16) / 255, parseInt(result[3], 16) / 255];
+  return [
+    parseInt(result[1], 16) / 255,
+    parseInt(result[2], 16) / 255,
+    parseInt(result[3], 16) / 255,
+  ];
 };
 
 const vertex = `#version 300 es
@@ -135,11 +139,10 @@ const Grainient = ({
   color2 = '#5227FF',
   color3 = '#B497CF',
   lightMode = false,
-  className = ''
+  className = '',
 }) => {
   const containerRef = useRef(null);
 
-  // Effect 1: build WebGL context once, pause when offscreen / tab hidden
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -148,7 +151,7 @@ const Grainient = ({
       webgl: 2,
       alpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      dpr: Math.min(window.devicePixelRatio || 1, 2),
     });
 
     const gl = renderer.gl;
@@ -163,31 +166,31 @@ const Grainient = ({
       vertex,
       fragment,
       uniforms: {
-        iTime:           { value: 0 },
-        iResolution:     { value: new Float32Array([1, 1]) },
-        uTimeSpeed:      { value: 0.25 },
-        uColorBalance:   { value: 0.0 },
-        uWarpStrength:   { value: 1.0 },
-        uWarpFrequency:  { value: 5.0 },
-        uWarpSpeed:      { value: 2.0 },
-        uWarpAmplitude:  { value: 50.0 },
-        uBlendAngle:     { value: 0.0 },
-        uBlendSoftness:  { value: 0.05 },
+        iTime: { value: 0 },
+        iResolution: { value: new Float32Array([1, 1]) },
+        uTimeSpeed: { value: 0.25 },
+        uColorBalance: { value: 0.0 },
+        uWarpStrength: { value: 1.0 },
+        uWarpFrequency: { value: 5.0 },
+        uWarpSpeed: { value: 2.0 },
+        uWarpAmplitude: { value: 50.0 },
+        uBlendAngle: { value: 0.0 },
+        uBlendSoftness: { value: 0.05 },
         uRotationAmount: { value: 500.0 },
-        uNoiseScale:     { value: 2.0 },
-        uGrainAmount:    { value: 0.1 },
-        uGrainScale:     { value: 2.0 },
-        uGrainAnimated:  { value: 0.0 },
-        uContrast:       { value: 1.5 },
-        uGamma:          { value: 1.0 },
-        uSaturation:     { value: 1.0 },
-        uCenterOffset:   { value: new Float32Array([0, 0]) },
-        uZoom:           { value: 0.9 },
-        uColor1:         { value: new Float32Array([1, 1, 1]) },
-        uColor2:         { value: new Float32Array([1, 1, 1]) },
-        uColor3:         { value: new Float32Array([1, 1, 1]) },
-        uLightMode:      { value: 0.0 }
-      }
+        uNoiseScale: { value: 2.0 },
+        uGrainAmount: { value: 0.1 },
+        uGrainScale: { value: 2.0 },
+        uGrainAnimated: { value: 0.0 },
+        uContrast: { value: 1.5 },
+        uGamma: { value: 1.0 },
+        uSaturation: { value: 1.0 },
+        uCenterOffset: { value: new Float32Array([0, 0]) },
+        uZoom: { value: 0.9 },
+        uColor1: { value: new Float32Array([1, 1, 1]) },
+        uColor2: { value: new Float32Array([1, 1, 1]) },
+        uColor3: { value: new Float32Array([1, 1, 1]) },
+        uLightMode: { value: 0.0 },
+      },
     });
 
     const mesh = new Mesh(gl, { geometry, program });
@@ -213,7 +216,7 @@ const Grainient = ({
     let isPageVisible = !document.hidden;
     const t0 = performance.now();
 
-    const loop = t => {
+    const loop = (t) => {
       program.uniforms.iTime.value = (t - t0) * 0.001;
       renderer.render({ scene: mesh });
       raf = requestAnimationFrame(loop);
@@ -223,11 +226,17 @@ const Grainient = ({
       if (isVisible && isPageVisible && raf === 0) raf = requestAnimationFrame(loop);
     };
     const tryStop = () => {
-      if (raf !== 0) { cancelAnimationFrame(raf); raf = 0; }
+      if (raf !== 0) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
     };
 
     const io = new IntersectionObserver(
-      ([entry]) => { isVisible = entry.isIntersecting; isVisible ? tryStart() : tryStop(); },
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        isVisible ? tryStart() : tryStop();
+      },
       { threshold: 0 }
     );
     io.observe(container);
@@ -246,11 +255,14 @@ const Grainient = ({
       io.disconnect();
       document.removeEventListener('visibilitychange', onVisibility);
       ctxMap.delete(container);
-      try { container.removeChild(canvas); } catch { /* ignore */ }
+      try {
+        container.removeChild(canvas);
+      } catch {
+        /* ignore */
+      }
     };
-  }, []); // renderer created once
+  }, []); 
 
-  // Effect 2: sync props to uniforms — zero GPU cost, no teardown
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -259,35 +271,53 @@ const Grainient = ({
     const { program } = ctx;
     const u = program.uniforms;
 
-    u.uTimeSpeed.value      = timeSpeed;
-    u.uColorBalance.value   = colorBalance;
-    u.uWarpStrength.value   = warpStrength;
-    u.uWarpFrequency.value  = warpFrequency;
-    u.uWarpSpeed.value      = warpSpeed;
-    u.uWarpAmplitude.value  = warpAmplitude;
-    u.uBlendAngle.value     = blendAngle;
-    u.uBlendSoftness.value  = blendSoftness;
+    u.uTimeSpeed.value = timeSpeed;
+    u.uColorBalance.value = colorBalance;
+    u.uWarpStrength.value = warpStrength;
+    u.uWarpFrequency.value = warpFrequency;
+    u.uWarpSpeed.value = warpSpeed;
+    u.uWarpAmplitude.value = warpAmplitude;
+    u.uBlendAngle.value = blendAngle;
+    u.uBlendSoftness.value = blendSoftness;
     u.uRotationAmount.value = rotationAmount;
-    u.uNoiseScale.value     = noiseScale;
-    u.uGrainAmount.value    = grainAmount;
-    u.uGrainScale.value     = grainScale;
-    u.uGrainAnimated.value  = grainAnimated ? 1.0 : 0.0;
-    u.uContrast.value       = contrast;
-    u.uGamma.value          = gamma;
-    u.uSaturation.value     = saturation;
-    u.uCenterOffset.value   = new Float32Array([centerX, centerY]);
-    u.uZoom.value           = zoom;
-    u.uColor1.value         = new Float32Array(hexToRgb(color1));
-    u.uColor2.value         = new Float32Array(hexToRgb(color2));
-    u.uColor3.value         = new Float32Array(hexToRgb(color3));
-    u.uLightMode.value      = lightMode ? 1.0 : 0.0;
+    u.uNoiseScale.value = noiseScale;
+    u.uGrainAmount.value = grainAmount;
+    u.uGrainScale.value = grainScale;
+    u.uGrainAnimated.value = grainAnimated ? 1.0 : 0.0;
+    u.uContrast.value = contrast;
+    u.uGamma.value = gamma;
+    u.uSaturation.value = saturation;
+    u.uCenterOffset.value = new Float32Array([centerX, centerY]);
+    u.uZoom.value = zoom;
+    u.uColor1.value = new Float32Array(hexToRgb(color1));
+    u.uColor2.value = new Float32Array(hexToRgb(color2));
+    u.uColor3.value = new Float32Array(hexToRgb(color3));
+    u.uLightMode.value = lightMode ? 1.0 : 0.0;
   }, [
-    timeSpeed, colorBalance, warpStrength, warpFrequency, warpSpeed,
-    warpAmplitude, blendAngle, blendSoftness, rotationAmount, noiseScale,
-    grainAmount, grainScale, grainAnimated, contrast, gamma, saturation,
-    centerX, centerY, zoom, color1, color2, color3, lightMode
+    timeSpeed,
+    colorBalance,
+    warpStrength,
+    warpFrequency,
+    warpSpeed,
+    warpAmplitude,
+    blendAngle,
+    blendSoftness,
+    rotationAmount,
+    noiseScale,
+    grainAmount,
+    grainScale,
+    grainAnimated,
+    contrast,
+    gamma,
+    saturation,
+    centerX,
+    centerY,
+    zoom,
+    color1,
+    color2,
+    color3,
+    lightMode,
   ]);
-
 
   return <div ref={containerRef} className={`grainient-container ${className}`.trim()} />;
 };

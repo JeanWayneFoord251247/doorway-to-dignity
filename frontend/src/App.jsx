@@ -7,6 +7,8 @@ import Volunteer from './pages/volunteer.jsx';
 import Admin from './pages/admin.jsx';
 import EventEditor from './pages/eventeditor.jsx';
 import Account from './pages/account.jsx';
+import Volunteers from './pages/volunteersearch.jsx'
+import FAQ from './pages/faq.jsx'
 import { useAutoLogout } from './hooks/useautologout.jsx';
 
 function App() {
@@ -27,6 +29,10 @@ function App() {
         <Route path='/admin/create-event' element={<EventEditor isEdit={false} />} />
 
         <Route path='/account' element={<Account />} />
+
+        <Route path='/admin/volunteers' element={<Volunteers />}/>
+
+        <Route path='/faq' element={<FAQ />}/>
       </Routes>
     </div>
   );

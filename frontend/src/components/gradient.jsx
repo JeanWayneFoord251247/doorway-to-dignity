@@ -261,7 +261,7 @@ const Grainient = ({
         /* ignore */
       }
     };
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const container = containerRef.current;

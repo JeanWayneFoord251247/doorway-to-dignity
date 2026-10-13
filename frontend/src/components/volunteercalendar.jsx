@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import '../css/calendar.css';
 
 function VolunteerCalendar({ events = [] }) {
-
   const [activeDate, setActiveDate] = useState(() => {
-    return new Date(); 
+    return new Date();
   });
 
   const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   const weekdays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
@@ -26,9 +36,7 @@ function VolunteerCalendar({ events = [] }) {
     if (events.length > 0 && events[0].date) {
       const parts = events[0].date.split(' ');
       if (parts.length === 3) {
-        const foundMonthIndex = months.findIndex(
-          (m) => m.toLowerCase() === parts[1].toLowerCase()
-        );
+        const foundMonthIndex = months.findIndex((m) => m.toLowerCase() === parts[1].toLowerCase());
         const foundYear = parseInt(parts[2], 10);
         if (foundMonthIndex !== -1 && !isNaN(foundYear)) {
           setActiveDate(new Date(foundYear, foundMonthIndex, 1));
@@ -102,13 +110,10 @@ function VolunteerCalendar({ events = [] }) {
     );
     if (isUserRegistered) return 'your-event';
 
-    const isPast =
-      cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const isPast = cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate());
     if (isPast) return 'passed-event';
 
-    const isFull = matchedEvents.every(
-      (e) => (e.volunteersCurrent || 0) >= (e.volunteersMax || 1)
-    );
+    const isFull = matchedEvents.every((e) => (e.volunteersCurrent || 0) >= (e.volunteersMax || 1));
     if (isFull) return 'full-event';
 
     return 'needed-event';

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/availableevents.css';
 
 function AvailableEvents({ events = [], loading = false, onSignUp }) {
   const navigate = useNavigate();
@@ -21,8 +22,7 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
     }
   }, [events, selectedEventId]);
 
-  const activeEvent =
-    events.find((e) => (e._id || e.id) === selectedEventId) || events[0] || null;
+  const activeEvent = events.find((e) => (e._id || e.id) === selectedEventId) || events[0] || null;
 
   useEffect(() => {
     if (activeEvent?.rolesNeeded && activeEvent.rolesNeeded.length > 0) {
@@ -45,20 +45,22 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
   };
 
   return (
-    <section className="available-events-section">
-      <div className="available-events-viewer">
-        <h2 className="dashboard-section-title">Available Events</h2>
+    <section className='available-events-section'>
+      <div className='available-events-viewer'>
+        <h2 className='dashboard-section-title'>Available Events</h2>
 
         {loading ? (
-          <p className="available-status-text">Loading available events...</p>
+          <p className='available-status-text'>Loading available events...</p>
         ) : events.length === 0 ? (
-          <div className="available-empty-state">
-            <p className="available-empty-text">No available events right now.</p>
-            <span className="available-empty-sub">Check back soon for new opportunities to get involved!</span>
+          <div className='available-empty-state'>
+            <p className='available-empty-text'>No available events right now.</p>
+            <span className='available-empty-sub'>
+              Check back soon for new opportunities to get involved!
+            </span>
           </div>
         ) : (
-          <div className="available-viewer-body">
-            <div className="available-events-list">
+          <div className='available-viewer-body'>
+            <div className='available-events-list'>
               {events.map((event) => {
                 const eventKey = event._id || event.id;
                 const isSelected = activeEvent && (activeEvent._id || activeEvent.id) === eventKey;
@@ -75,21 +77,21 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
                         'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=400&q=80'
                       }
                       alt={event.title}
-                      className="list-card-thumb"
+                      className='list-card-thumb'
                     />
-                    <div className="list-card-info">
-                      <h4 className="list-card-title">{event.title}</h4>
-                      <p className="list-card-sub">{event.location}</p>
-                      <p className="list-card-sub">
+                    <div className='list-card-info'>
+                      <h4 className='list-card-title'>{event.title}</h4>
+                      <p className='list-card-sub'>{event.location}</p>
+                      <p className='list-card-sub'>
                         {event.date} {event.time ? `• ${event.time}` : ''}
                       </p>
-                      <p className="list-card-sub">
+                      <p className='list-card-sub'>
                         Volunteers - {event.volunteersCurrent || 0}/{event.volunteersMax || 20}
                       </p>
                       {isAdmin && (
                         <button
-                          type="button"
-                          className="btn-card-inline-edit"
+                          type='button'
+                          className='btn-card-inline-edit'
                           onClick={(e) => handleEditClick(eventKey, e)}
                         >
                           Edit
@@ -102,19 +104,19 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
             </div>
 
             {activeEvent && (
-              <div className="available-detail-pane">
-                <div className="detail-text-col">
-                  <h3 className="detail-main-title">{activeEvent.title}</h3>
-                  <p className="detail-description">{activeEvent.description}</p>
+              <div className='available-detail-pane'>
+                <div className='detail-text-col'>
+                  <h3 className='detail-main-title'>{activeEvent.title}</h3>
+                  <p className='detail-description'>{activeEvent.description}</p>
 
                   {activeEvent.rolesNeeded && activeEvent.rolesNeeded.length > 0 && (
-                    <div className="detail-role-selection">
-                      <label htmlFor="volunteer-role-select" className="role-dropdown-label">
+                    <div className='detail-role-selection'>
+                      <label htmlFor='volunteer-role-select' className='role-dropdown-label'>
                         Choose your role:
                       </label>
                       <select
-                        id="volunteer-role-select"
-                        className="role-dropdown-select"
+                        id='volunteer-role-select'
+                        className='role-dropdown-select'
                         value={selectedRole}
                         onChange={(e) => setSelectedRole(e.target.value)}
                       >
@@ -127,31 +129,31 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
                     </div>
                   )}
 
-                  <div className="detail-meta-footer">
-                    <div className="meta-badge-group">
-                      <span className="meta-label">Volunteers</span>
-                      <div className="meta-pill">
+                  <div className='detail-meta-footer'>
+                    <div className='meta-badge-group'>
+                      <span className='meta-label'>Volunteers</span>
+                      <div className='meta-pill'>
                         {activeEvent.volunteersCurrent || 0}/{activeEvent.volunteersMax || 20}
                       </div>
                     </div>
 
-                    <div className="meta-badge-group">
-                      <span className="meta-label">Location</span>
-                      <div className="meta-pill pill-wide">{activeEvent.location}</div>
+                    <div className='meta-badge-group'>
+                      <span className='meta-label'>Location</span>
+                      <div className='meta-pill pill-wide'>{activeEvent.location}</div>
                     </div>
 
                     {isAdmin ? (
                       <button
-                        type="button"
-                        className="btn-detail-edit"
+                        type='button'
+                        className='btn-detail-edit'
                         onClick={() => handleEditClick(activeEvent._id || activeEvent.id)}
                       >
                         Edit Event
                       </button>
                     ) : (
                       <button
-                        type="button"
-                        className="btn-detail-signup"
+                        type='button'
+                        className='btn-detail-signup'
                         onClick={handleSignUpClick}
                         disabled={
                           isSubmitting ||
@@ -160,22 +162,23 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
                       >
                         {isSubmitting
                           ? 'Signing Up...'
-                          : (activeEvent.volunteersCurrent || 0) >= (activeEvent.volunteersMax || 20)
-                          ? 'Event Full'
-                          : 'Sign Up'}
+                          : (activeEvent.volunteersCurrent || 0) >=
+                              (activeEvent.volunteersMax || 20)
+                            ? 'Event Full'
+                            : 'Sign Up'}
                       </button>
                     )}
                   </div>
                 </div>
 
-                <div className="detail-image-col">
+                <div className='detail-image-col'>
                   <img
                     src={
                       activeEvent.image ||
                       'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'
                     }
                     alt={activeEvent.title}
-                    className="detail-large-img"
+                    className='detail-large-img'
                   />
                 </div>
               </div>

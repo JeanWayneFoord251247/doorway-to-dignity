@@ -25,17 +25,20 @@ function AdminSidebar({ user, onLogout }) {
 
           <div className='admin-profile-header'>
             <div className='admin-avatar-container'>
-              <img
-                src={
-                  user?.avatar ||
-                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'
-                }
-                alt={user?.name || 'Admin'}
-                className='admin-avatar-img'
-              />
+              {user?.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt={user?.name || 'Admin'}
+                  className='admin-avatar-img'
+                />
+              ) : (
+                <div className='admin-avatar-fallback'>
+                  <i className='fi fi-sr-user'></i>
+                </div>
+              )}
             </div>
             <p className='admin-contact-item'>
-              <i className='fi fi-sr-user'></i> {user?.name || 'Administrator'}
+              <i className='fi fi-sr-user'></i> {user?.name || user?.fullName || 'Administrator'}
             </p>
             <p className='admin-contact-item'>
               <i className='fi fi-sr-envelope'></i> {user?.email || 'admin@organization.org'}
@@ -66,17 +69,16 @@ function AdminSidebar({ user, onLogout }) {
               </div>
             </div>
 
-            <button
-              type='button'
-              className='admin-menu-item'
-              onClick={() => navigate('/admin/volunteers')}
+            <NavLink
+              to='/admin/volunteers'
+              className={({ isActive }) => `admin-menu-item ${isActive ? 'active' : ''}`}
             >
               <div className='admin-menu-left'>
                 <i className='fi fi-sr-users-alt'></i>
                 <span>Volunteers</span>
               </div>
               <span className='admin-menu-arrow'>›</span>
-            </button>
+            </NavLink>
           </nav>
         </div>
 

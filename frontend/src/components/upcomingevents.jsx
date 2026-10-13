@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import LeaveModal from './leavemodal.jsx';
+import ViewEventModal from './vieweventmodal.jsx';
 import '../css/upcomingevents.css';
 
 function UpcomingEvents({ events = [], loading = false, currentUser, onLeave }) {
+  const [selectedEventForView, setSelectedEventForView] = useState(null);
+  const [eventToLeave, setEventToLeave] = useState(null);
+  const [isLeaving, setIsLeaving] = useState(false);
+  const [leaveSuccess, setLeaveSuccess] = useState(false);
+
   const currentUserId = currentUser?._id || currentUser?.id;
   const currentUserEmail = currentUser?.email;
 
@@ -21,54 +28,103 @@ function UpcomingEvents({ events = [], loading = false, currentUser, onLeave }) 
     return rosterEntry?.role || event.selectedRole || 'Volunteer';
   };
 
+  const handleConfirmLeave = async () => {
+    if (!eventToLeave || !onLeave) return;
+
+    setIsLeaving(true);
+    try {
+      await onLeave(eventToLeave._id || eventToLeave.id);
+      setLeaveSuccess(true);
+    } catch {
+      // If error occurs, onLeave already handled/alerted it
+    } finally {
+      setIsLeaving(false);
+    }
+  };
+
+  const handleCloseLeaveModal = () => {
+    setEventToLeave(null);
+    setLeaveSuccess(false);
+  };
+
   return (
-    <section className='upcoming-events-card'>
-      <h2 className='dashboard-section-title'>Your Upcoming Events</h2>
+    <>
+      <section className='upcoming-events-card'>
+        <h2 className='dashboard-section-title'>Your Upcoming Events</h2>
 
-      {loading ? (
-        <p className='upcoming-status-text'>Loading your events...</p>
-      ) : events.length === 0 ? (
-        <div className='upcoming-empty-state'>
-          <p>No upcoming events yet.</p>
-          <span>Sign up for an event below to add it to your schedule!</span>
-        </div>
-      ) : (
-        <div className='upcoming-events-list'>
-          {events.map((event) => (
-            <div key={event._id || event.id} className='upcoming-event-item'>
-              <div className='event-icon-badge'>
-                <i className='fi fi-sr-calendar'></i>
-              </div>
+        {loading ? (
+          <p className='upcoming-status-text'>Loading your events...</p>
+        ) : events.length === 0 ? (
+          <div className='upcoming-empty-state'>
+            <p>No upcoming events yet.</p>
+            <span>Sign up for an event below to add it to your schedule!</span>
+          </div>
+        ) : (
+          <div className='upcoming-events-list'>
+            {events.map((event) => (
+              <div key={event._id || event.id} className='upcoming-event-item'>
+                <div className='event-icon-badge'>
+                  <i className='fi fi-sr-calendar'></i>
+                </div>
 
-              <div className='event-details'>
-                <h3 className='event-title'>{event.title}</h3>
-                <p className='event-meta'>
-                  <span>{event.date}</span>
-                  {event.time && <span>{event.time}</span>}
-                </p>
-                <p className='event-role'>{getAssignedRole(event)}</p>
-              </div>
+                <div className='event-details'>
+                  <h3 className='event-title'>{event.title}</h3>
+                  <p className='event-meta'>
+                    <span>{event.date}</span>
+                    {event.time && <span>{event.time}</span>}
+                  </p>
+                  <p className='event-role'>{getAssignedRole(event)}</p>
+                </div>
 
-              <div className='event-actions-group'>
-                {onLeave && (
+                <div className='event-actions-group'>
+                  {onLeave && (
+                    <button
+                      type='button'
+                      className='btn-event-leave'
+                      onClick={() => {
+                        setLeaveSuccess(false);
+                        setEventToLeave(event);
+                      }}
+                      title='Withdraw from this event'
+                    >
+                      Leave
+                    </button>
+                  )}
                   <button
                     type='button'
-                    className='btn-event-leave'
-                    onClick={() => onLeave(event._id || event.id)}
-                    title='Withdraw from this event'
+                    className='btn-event-view'
+                    onClick={() => setSelectedEventForView(event)}
                   >
-                    Leave
+                    View
                   </button>
-                )}
-                <button type='button' className='btn-event-view'>
-                  View
-                </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </section>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <LeaveModal
+        isOpen={Boolean(eventToLeave)}
+        eventTitle={eventToLeave?.title || 'this event'}
+        onConfirm={handleConfirmLeave}
+        onCancel={handleCloseLeaveModal}
+        isLeaving={isLeaving}
+        isSuccess={leaveSuccess}
+        onCloseSuccess={handleCloseLeaveModal}
+      />
+
+      <ViewEventModal
+        isOpen={Boolean(selectedEventForView)}
+        event={selectedEventForView}
+        userRole={selectedEventForView ? getAssignedRole(selectedEventForView) : ''}
+        onClose={() => setSelectedEventForView(null)}
+        onLeave={(event) => {
+          setLeaveSuccess(false);
+          setEventToLeave(event);
+        }}
+      />
+    </>
   );
 }
 

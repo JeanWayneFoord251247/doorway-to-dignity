@@ -2,42 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AnimatedBackground from '../components/animatedbackground.jsx';
 import Grainient from '../components/gradient.jsx';
+import ViewEventModal from '../components/vieweventmodal.jsx';
 import '../css/account.css';
-
-const initialPastEvents = [
-  {
-    id: 1,
-    title: 'Jars of hope',
-    date: '04/08/26',
-    role: 'Packing Jars',
-    image:
-      'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=150&q=80',
-  },
-  {
-    id: 2,
-    title: 'Shelterbag Project',
-    date: '21/05/26',
-    role: 'Designating Food',
-    image:
-      'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=150&q=80',
-  },
-  {
-    id: 3,
-    title: 'Pots of hope',
-    date: '17/05/26',
-    role: 'Designating Food',
-    image:
-      'https://images.unsplash.com/photo-1544027993-37dbfe43562a?auto=format&fit=crop&w=150&q=80',
-  },
-  {
-    id: 4,
-    title: 'Shelterbag Project',
-    date: '16/02/26',
-    role: 'Designating Food',
-    image:
-      'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=150&q=80',
-  },
-];
 
 function Account() {
   const navigate = useNavigate();
@@ -50,31 +16,104 @@ function Account() {
     password: '••••••••',
     preferredRole: 'Packing Jars',
     emailNotifications: true,
-    avatar:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80',
+    avatar: '',
   });
 
   const [showPassword, setShowPassword] = useState(false);
+  const [pastEvents, setPastEvents] = useState([]);
+  const [loadingEvents, setLoadingEvents] = useState(true);
+  const [selectedEventForView, setSelectedEventForView] = useState(null);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      try {
-        const parsed = JSON.parse(storedUser);
-        const phoneParts = (parsed.phone || '').split(' ');
-        setUserData((prev) => ({
-          ...prev,
-          fullName: parsed.name || parsed.fullName || '',
-          email: parsed.email || '',
-          phoneCode: phoneParts[0] || '+27',
-          phoneNumber: phoneParts[1] || parsed.phoneNumber || '',
-          avatar: parsed.avatar || prev.avatar,
-        }));
-      } catch (err) {
-        console.error('Error parsing user data', err);
+  const storedUser = localStorage.getItem('user');
+  const currentUser = storedUser ? JSON.parse(storedUser) : null;
+  const currentUserId = currentUser?._id || currentUser?.id;
+  const currentUserEmail = currentUser?.email;
+
+  const parseEventDate = (dateStr) => {
+    if (!dateStr) return null;
+    const parts = dateStr.trim().split(/[\s/.-]+/);
+    if (parts.length === 3) {
+      if (isNaN(parts[1])) {
+        const [day, monthName, year] = parts;
+        const parsed = new Date(`${monthName} ${day}, ${year}`);
+        if (!isNaN(parsed)) return parsed;
+      } else {
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        let year = parseInt(parts[2], 10);
+        if (year < 100) year += 2000;
+        return new Date(year, month, day);
       }
     }
-  }, []);
+    const directDate = new Date(dateStr);
+    return isNaN(directDate) ? null : directDate;
+  };
+
+  const getAssignedRole = (event) => {
+    if (!event.volunteersList || !Array.isArray(event.volunteersList)) {
+      return event.selectedRole || 'Volunteer';
+    }
+
+    const rosterEntry = event.volunteersList.find((v) => {
+      const rosterId = v.userId?._id || v.userId;
+      const matchesId = currentUserId && String(rosterId) === String(currentUserId);
+      const matchesEmail =
+        currentUserEmail && v.email?.toLowerCase() === currentUserEmail.toLowerCase();
+      return matchesId || matchesEmail;
+    });
+
+    return rosterEntry?.role || event.selectedRole || 'Volunteer';
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      const phoneParts = (currentUser.phone || '').split(' ');
+      setUserData((prev) => ({
+        ...prev,
+        fullName: currentUser.name || currentUser.fullName || '',
+        email: currentUser.email || '',
+        phoneCode: phoneParts[0] || '+27',
+        phoneNumber: phoneParts[1] || currentUser.phoneNumber || '',
+        avatar: currentUser.avatar || '',
+      }));
+    }
+
+    const fetchUserPastEvents = async () => {
+      try {
+        const res = await fetch('http://localhost:5000/api/events');
+        if (!res.ok) throw new Error('Failed to load events');
+        const data = await res.json();
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        const participatedPast = data.filter((evt) => {
+          if (!evt.volunteersList || !Array.isArray(evt.volunteersList)) return false;
+
+          const isRegistered = evt.volunteersList.some((v) => {
+            const rosterId = v.userId?._id || v.userId;
+            const matchesId = currentUserId && String(rosterId) === String(currentUserId);
+            const matchesEmail =
+              currentUserEmail && v.email?.toLowerCase() === currentUserEmail.toLowerCase();
+            return matchesId || matchesEmail;
+          });
+
+          if (!isRegistered) return false;
+
+          const eventDate = parseEventDate(evt.date);
+          return eventDate ? eventDate < today : false;
+        });
+
+        setPastEvents(participatedPast);
+      } catch (err) {
+        console.error('Error loading participated past events:', err.message);
+      } finally {
+        setLoadingEvents(false);
+      }
+    };
+
+    fetchUserPastEvents();
+  }, [currentUserId, currentUserEmail]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -82,6 +121,15 @@ function Account() {
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
+  };
+
+  const handleCloseToDashboard = () => {
+    const userRole = localStorage.getItem('userRole');
+    if (userRole === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/volunteer');
+    }
   };
 
   const handleLogout = () => {
@@ -95,16 +143,18 @@ function Account() {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      const imageUrl = URL.createObjectURL(file);
-      setUserData((prev) => ({ ...prev, avatar: imageUrl }));
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUserData((prev) => ({ ...prev, avatar: reader.result }));
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const handleRemoveImage = () => {
     setUserData((prev) => ({
       ...prev,
-      avatar:
-        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=80',
+      avatar: '',
     }));
   };
 
@@ -143,6 +193,14 @@ function Account() {
 
       <main className='account-page-wrapper'>
         <div className='account-card'>
+          <button
+            type='button'
+            className='account-card-close'
+            onClick={handleCloseToDashboard}
+            aria-label='Return to dashboard'
+          >
+            <i className='fi fi-sr-cross-small'></i>
+          </button>
           <h1 className='account-main-title'>Profile</h1>
 
           <div className='account-grid'>
@@ -150,7 +208,14 @@ function Account() {
               <h2 className='section-title'>Account</h2>
 
               <div className='profile-picture-row'>
-                <img src={userData.avatar} alt='Profile' className='profile-avatar-img' />
+                {userData.avatar ? (
+                  <img src={userData.avatar} alt='Profile' className='profile-avatar-img' />
+                ) : (
+                  <div className='profile-avatar-default'>
+                    <i className='fi fi-sr-user'></i>
+                  </div>
+                )}
+
                 <div className='profile-picture-actions'>
                   <span className='profile-picture-label'>Profile Picture</span>
                   <div className='profile-btn-group'>
@@ -286,27 +351,44 @@ function Account() {
             <section className='account-events-section'>
               <h2 className='section-title'>Past participated Events</h2>
               <div className='events-card-wrapper'>
-                <div className='events-list'>
-                  {initialPastEvents.map((evt) => (
-                    <div key={evt.id} className='event-item-row'>
-                      <img src={evt.image} alt={evt.title} className='event-thumb' />
-                      <div className='event-details'>
-                        <h3 className='event-name'>{evt.title}</h3>
-                        <p className='event-meta-date'>{evt.date}</p>
-                        <p className='event-meta-role'>
-                          Chosen Role: <span>{evt.role}</span>
-                        </p>
+                {loadingEvents ? (
+                  <p className='upcoming-status-text'>Loading your past events...</p>
+                ) : pastEvents.length === 0 ? (
+                  <div className='upcoming-empty-state'>
+                    <p className='available-empty-text'>No past events participated in yet.</p>
+                    <span className='available-empty-sub'>
+                      Events you join will appear here once their dates pass!
+                    </span>
+                  </div>
+                ) : (
+                  <div className='events-list'>
+                    {pastEvents.map((evt) => (
+                      <div key={evt._id || evt.id} className='event-item-row'>
+                        {evt.image ? (
+                          <img src={evt.image} alt={evt.title} className='event-thumb' />
+                        ) : (
+                          <div className='event-thumb-fallback'>
+                            <i className='fi fi-sr-calendar'></i>
+                          </div>
+                        )}
+                        <div className='event-details'>
+                          <h3 className='event-name'>{evt.title}</h3>
+                          <p className='event-meta-date'>{evt.date}</p>
+                          <p className='event-meta-role'>
+                            Chosen Role: <span>{getAssignedRole(evt)}</span>
+                          </p>
+                        </div>
+                        <button
+                          type='button'
+                          className='btn-view-event'
+                          onClick={() => setSelectedEventForView(evt)}
+                        >
+                          View
+                        </button>
                       </div>
-                      <button
-                        type='button'
-                        className='btn-view-event'
-                        onClick={() => navigate(`/events/${evt.id}`)}
-                      >
-                        View
-                      </button>
-                    </div>
-                  ))}
-                </div>
+                    ))}
+                  </div>
+                )}
 
                 <div className='events-pagination-dots'>
                   <span className='dot'>•</span>
@@ -318,6 +400,13 @@ function Account() {
           </div>
         </div>
       </main>
+
+      <ViewEventModal
+        isOpen={Boolean(selectedEventForView)}
+        event={selectedEventForView}
+        userRole={selectedEventForView ? getAssignedRole(selectedEventForView) : ''}
+        onClose={() => setSelectedEventForView(null)}
+      />
     </>
   );
 }

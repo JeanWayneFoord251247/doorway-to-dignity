@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DeleteModal from './deletionmodel.jsx';
 import '../css/admineventsmanager.css';
 
 function AdminEventsManager() {
@@ -7,6 +8,8 @@ function AdminEventsManager() {
   const [events, setEvents] = useState([]);
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const fetchEvents = async () => {
     try {
@@ -41,13 +44,16 @@ function AdminEventsManager() {
     navigate(`/admin/events/edit/${eventId}`);
   };
 
-  const handleDeleteClick = async () => {
-    if (!selectedEvent) return;
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${selectedEvent.title}"?`
-    );
-    if (!confirmDelete) return;
+  const handleDeleteTrigger = () => {
+    if (selectedEvent) {
+      setIsDeleteModalOpen(true);
+    }
+  };
 
+  const handleConfirmDelete = async () => {
+    if (!selectedEvent) return;
+
+    setIsDeleting(true);
     const token = localStorage.getItem('token');
     try {
       const res = await fetch(
@@ -65,172 +71,191 @@ function AdminEventsManager() {
         throw new Error(errorData.message || 'Failed to delete event');
       }
 
+      setIsDeleteModalOpen(false);
       fetchEvents();
     } catch (err) {
       alert(err.message);
+    } finally {
+      setIsDeleting(false);
     }
   };
 
   return (
-    <section className='admin-events-section'>
-      <div className='admin-events-viewer'>
-        <h2 className='admin-card-inner-title dark'>Upcoming Events</h2>
+    <>
+      <section className='admin-events-section'>
+        <div className='admin-events-viewer'>
+          <h2 className='admin-card-inner-title dark'>Upcoming Events</h2>
 
-        {loading ? (
-          <p className='admin-loading-text'>Loading events...</p>
-        ) : events.length === 0 ? (
-          <div className='admin-empty-state'>
-            <p>No events found.</p>
-            <button
-              type='button'
-              className='btn-admin-edit'
-              onClick={() => navigate('/admin/events/create')}
-            >
-              Create New Event
-            </button>
-          </div>
-        ) : (
-          <div className='admin-viewer-body'>
-            <div className='admin-events-list'>
-              {events.map((event) => {
-                const eventKey = event._id || event.id;
-                const isSelected =
-                  selectedEvent && (selectedEvent._id || selectedEvent.id) === eventKey;
-                return (
-                  <div
-                    key={eventKey}
-                    className={`admin-list-card ${isSelected ? 'selected' : ''}`}
-                    onClick={() => setSelectedEventId(eventKey)}
-                  >
+          {loading ? (
+            <p className='admin-loading-text'>Loading events...</p>
+          ) : events.length === 0 ? (
+            <div className='admin-empty-state'>
+              <p>No events found.</p>
+              <button
+                type='button'
+                className='btn-admin-edit'
+                onClick={() => navigate('/admin/events/create')}
+              >
+                Create New Event
+              </button>
+            </div>
+          ) : (
+            <div className='admin-viewer-body'>
+              <div className='admin-events-list'>
+                {events.map((event) => {
+                  const eventKey = event._id || event.id;
+                  const isSelected =
+                    selectedEvent && (selectedEvent._id || selectedEvent.id) === eventKey;
+                  return (
+                    <div
+                      key={eventKey}
+                      className={`admin-list-card ${isSelected ? 'selected' : ''}`}
+                      onClick={() => setSelectedEventId(eventKey)}
+                    >
+                      <img
+                        src={
+                          event.image ||
+                          'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'
+                        }
+                        alt={event.title}
+                        className='list-card-thumb'
+                      />
+                      <div className='list-card-info'>
+                        <h4 className='list-card-title'>{event.title}</h4>
+                        <p className='list-card-sub'>{event.location}</p>
+                        <p className='list-card-sub'>
+                          {event.date} {event.time ? `• ${event.time}` : ''}
+                        </p>
+                        <p className='list-card-sub'>
+                          Volunteers -{' '}
+                          {event.volunteersCurrent ||
+                            (event.volunteersList ? event.volunteersList.length : 0)}
+                          /{event.volunteersMax || 20}
+                        </p>
+                        <button
+                          type='button'
+                          className='btn-card-inline-edit'
+                          onClick={(e) => handleEditClick(eventKey, e)}
+                        >
+                          Edit
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {selectedEvent && (
+                <div className='admin-detail-pane'>
+                  <div className='admin-detail-content'>
+                    <h3 className='detail-main-title'>{selectedEvent.title}</h3>
+                    <p className='detail-description'>{selectedEvent.description}</p>
+
+                    <div className='admin-event-quick-info'>
+                      <p>
+                        <i className='fi fi-sr-calendar'></i> {selectedEvent.date}
+                      </p>
+                      <p>
+                        <i className='fi fi-sr-clock'></i> {selectedEvent.time}
+                      </p>
+                      <p>
+                        <i className='fi fi-sr-marker'></i> {selectedEvent.location}
+                      </p>
+                    </div>
+
+                    <div className='detail-meta-row'>
+                      <div className='meta-badge-group'>
+                        <span className='meta-label'>Roles</span>
+                        <div className='meta-pill pill-wide'>
+                          {selectedEvent.rolesNeeded && selectedEvent.rolesNeeded.length > 0
+                            ? selectedEvent.rolesNeeded.join(', ')
+                            : selectedEvent.selectedRole || 'General Volunteer'}
+                        </div>
+                      </div>
+
+                      <div className='meta-badge-group'>
+                        <span className='meta-label'>Volunteers</span>
+                        <div className='meta-pill'>
+                          {selectedEvent.volunteersCurrent ||
+                            (selectedEvent.volunteersList
+                              ? selectedEvent.volunteersList.length
+                              : 0)}
+                          /{selectedEvent.volunteersMax || 20}
+                        </div>
+                      </div>
+
+                      <div className='meta-badge-group'>
+                        <span className='meta-label'>Location</span>
+                        <div className='meta-pill pill-wide'>{selectedEvent.location}</div>
+                      </div>
+                    </div>
+
+                    <div className='admin-roster-table'>
+                      <div className='roster-header'>
+                        <span>Role</span>
+                        <span>Volunteer Name</span>
+                      </div>
+                      <div className='roster-body'>
+                        {selectedEvent.volunteersList && selectedEvent.volunteersList.length > 0 ? (
+                          selectedEvent.volunteersList.map((vol, idx) => (
+                            <div key={idx} className='roster-row'>
+                              <span className='roster-cell'>{vol.role}</span>
+                              <span className='roster-cell'>{vol.name}</span>
+                            </div>
+                          ))
+                        ) : (
+                          <div className='roster-row'>
+                            <span className='roster-cell roster-empty-cell'>
+                              No volunteers signed up yet.
+                            </span>
+                            <span className='roster-cell'></span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className='admin-detail-side'>
                     <img
                       src={
-                        event.image ||
+                        selectedEvent.image ||
                         'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'
                       }
-                      alt={event.title}
-                      className='list-card-thumb'
+                      alt={selectedEvent.title}
+                      className='detail-large-img'
                     />
-                    <div className='list-card-info'>
-                      <h4 className='list-card-title'>{event.title}</h4>
-                      <p className='list-card-sub'>{event.location}</p>
-                      <p className='list-card-sub'>
-                        {event.date} {event.time ? `• ${event.time}` : ''}
-                      </p>
-                      <p className='list-card-sub'>
-                        Volunteers -{' '}
-                        {event.volunteersCurrent ||
-                          (event.volunteersList ? event.volunteersList.length : 0)}
-                        /{event.volunteersMax || 20}
-                      </p>
+                    <div className='admin-detail-btn-group'>
                       <button
                         type='button'
-                        className='btn-card-inline-edit'
-                        onClick={(e) => handleEditClick(eventKey, e)}
+                        className='btn-admin-edit'
+                        onClick={() => handleEditClick(selectedEvent._id || selectedEvent.id)}
                       >
-                        Edit
+                        Edit Event
+                      </button>
+                      <button
+                        type='button'
+                        className='btn-admin-delete'
+                        onClick={handleDeleteTrigger}
+                      >
+                        Delete Event
                       </button>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              )}
             </div>
+          )}
+        </div>
+      </section>
 
-            {selectedEvent && (
-              <div className='admin-detail-pane'>
-                <div className='admin-detail-content'>
-                  <h3 className='detail-main-title'>{selectedEvent.title}</h3>
-                  <p className='detail-description'>{selectedEvent.description}</p>
-
-                  <div className='admin-event-quick-info'>
-                    <p>
-                      <i className='fi fi-sr-calendar'></i> {selectedEvent.date}
-                    </p>
-                    <p>
-                      <i className='fi fi-sr-clock'></i> {selectedEvent.time}
-                    </p>
-                    <p>
-                      <i className='fi fi-sr-marker'></i> {selectedEvent.location}
-                    </p>
-                  </div>
-
-                  <div className='detail-meta-row'>
-                    <div className='meta-badge-group'>
-                      <span className='meta-label'>Roles</span>
-                      <div className='meta-pill pill-wide'>
-                        {selectedEvent.rolesNeeded && selectedEvent.rolesNeeded.length > 0
-                          ? selectedEvent.rolesNeeded.join(', ')
-                          : selectedEvent.selectedRole || 'General Volunteer'}
-                      </div>
-                    </div>
-
-                    <div className='meta-badge-group'>
-                      <span className='meta-label'>Volunteers</span>
-                      <div className='meta-pill'>
-                        {selectedEvent.volunteersCurrent ||
-                          (selectedEvent.volunteersList ? selectedEvent.volunteersList.length : 0)}
-                        /{selectedEvent.volunteersMax || 20}
-                      </div>
-                    </div>
-
-                    <div className='meta-badge-group'>
-                      <span className='meta-label'>Location</span>
-                      <div className='meta-pill pill-wide'>{selectedEvent.location}</div>
-                    </div>
-                  </div>
-
-                  <div className='admin-roster-table'>
-                    <div className='roster-header'>
-                      <span>Role</span>
-                      <span>Volunteer Name</span>
-                    </div>
-                    <div className='roster-body'>
-                      {selectedEvent.volunteersList && selectedEvent.volunteersList.length > 0 ? (
-                        selectedEvent.volunteersList.map((vol, idx) => (
-                          <div key={idx} className='roster-row'>
-                            <span className='roster-cell'>{vol.role}</span>
-                            <span className='roster-cell'>{vol.name}</span>
-                          </div>
-                        ))
-                      ) : (
-                        <div className='roster-row'>
-                          <span className='roster-cell roster-empty-cell'>
-                            No volunteers signed up yet.
-                          </span>
-                          <span className='roster-cell'></span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className='admin-detail-side'>
-                  <img
-                    src={
-                      selectedEvent.image ||
-                      'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'
-                    }
-                    alt={selectedEvent.title}
-                    className='detail-large-img'
-                  />
-                  <div className='admin-detail-btn-group'>
-                    <button
-                      type='button'
-                      className='btn-admin-edit'
-                      onClick={() => handleEditClick(selectedEvent._id || selectedEvent.id)}
-                    >
-                      Edit Event
-                    </button>
-                    <button type='button' className='btn-admin-delete' onClick={handleDeleteClick}>
-                      Delete Event
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </section>
+      <DeleteModal
+        isOpen={isDeleteModalOpen}
+        eventTitle={selectedEvent?.title || 'this event'}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setIsDeleteModalOpen(false)}
+        isDeleting={isDeleting}
+      />
+    </>
   );
 }
 

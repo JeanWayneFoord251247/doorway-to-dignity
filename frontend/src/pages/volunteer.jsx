@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/navbar.jsx';
 import AnimatedBackground from '../components/animatedbackground.jsx';
 import Grainient from '../components/gradient.jsx';
-import UpcomingEvents from '../components/upcomingevents';
+import UpcomingEvents from '../components/upcomingevents.jsx';
 import VolunteerCalendar from '../components/volunteercalendar.jsx';
 import AvailableEvents from '../components/availableevents.jsx';
 import '../css/volunteer.css';
@@ -23,7 +23,7 @@ function VolunteerPage() {
       const data = await res.json();
       setEvents(data);
     } catch (err) {
-      console.error('Error fetching events:', err);
+      console.error('Error fetching events:', err.message);
     } finally {
       setLoading(false);
     }
@@ -35,10 +35,7 @@ function VolunteerPage() {
 
   const handleSignUpForEvent = async (eventId, chosenRole) => {
     const token = localStorage.getItem('token');
-    if (!token) {
-      alert('Please log in to sign up for events.');
-      return;
-    }
+    if (!token) return;
 
     try {
       const res = await fetch(`http://localhost:5000/api/events/${eventId}/signup`, {
@@ -56,20 +53,17 @@ function VolunteerPage() {
         throw new Error(data.message || 'Could not sign up for this event');
       }
 
-      alert('Successfully registered for the event!');
-
-      setEvents((prev) => prev.map((evt) => (evt._id === eventId ? data.event : evt)));
+      setEvents((prev) =>
+        prev.map((evt) => (evt._id === eventId ? data.event : evt))
+      );
     } catch (err) {
-      alert(err.message);
+      console.error(err.message);
     }
   };
 
   const handleLeaveEvent = async (eventId) => {
     const token = localStorage.getItem('token');
-    if (!token) {
-      alert('Please log in first.');
-      return;
-    }
+    if (!token) return;
 
     try {
       const res = await fetch(`http://localhost:5000/api/events/${eventId}/leave`, {
@@ -85,11 +79,12 @@ function VolunteerPage() {
         throw new Error(data.message || 'Could not leave event');
       }
 
-      alert('Successfully withdrawn from event!');
-
-      setEvents((prev) => prev.map((evt) => (evt._id === eventId ? data.event : evt)));
+      setEvents((prev) =>
+        prev.map((evt) => (evt._id === eventId ? data.event : evt))
+      );
     } catch (err) {
-      alert(err.message);
+      console.error(err.message);
+      throw err;
     }
   };
 
@@ -111,9 +106,9 @@ function VolunteerPage() {
     <>
       <AnimatedBackground />
       <Grainient
-        color1='#E9E3D5'
-        color2='#13C0D1'
-        color3='#E9E3D5'
+        color1="#E9E3D5"
+        color2="#13C0D1"
+        color3="#E9E3D5"
         timeSpeed={1.0}
         colorBalance={0}
         warpStrength={4}
@@ -137,9 +132,9 @@ function VolunteerPage() {
 
       <Navbar />
 
-      <div className='volunteer-page'>
-        <main className='volunteer-container'>
-          <div className='volunteer-top-grid'>
+      <div className="volunteer-page">
+        <main className="volunteer-container">
+          <div className="volunteer-top-grid">
             <UpcomingEvents
               events={upcomingEvents}
               loading={loading}

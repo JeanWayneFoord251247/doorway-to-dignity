@@ -7,12 +7,14 @@ function AdminSidebar({ user, onLogout }) {
   const [eventsOpen, setEventsOpen] = useState(true);
 
   const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userRole');
     if (onLogout) {
       onLogout();
-    } else {
-      localStorage.removeItem('token');
-      navigate('/login');
     }
+    navigate('/login');
   };
 
   return (
@@ -56,7 +58,6 @@ function AdminSidebar({ user, onLogout }) {
 
               <div className={`admin-submenu-wrapper ${eventsOpen ? 'open' : ''}`}>
                 <div className='admin-submenu-inner'>
-      
                   <NavLink to='/admin/events/create' className='admin-submenu-item'>
                     <i className='fi fi-sr-plus'></i>
                     <span>Create Event</span>

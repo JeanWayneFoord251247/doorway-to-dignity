@@ -167,9 +167,9 @@ function EventEditor({ isEdit = false }) {
     <>
       <AnimatedBackground />
       <Grainient
-        color1="#E9E3D5"
-        color2="#13C0D1"
-        color3="#E9E3D5"
+        color1='#E9E3D5'
+        color2='#13C0D1'
+        color3='#E9E3D5'
         timeSpeed={1.0}
         colorBalance={0}
         warpStrength={4}
@@ -192,94 +192,94 @@ function EventEditor({ isEdit = false }) {
       />
       <Navbar />
 
-      <div className="editor-page">
-        <main className="editor-container">
-          <div className="editor-card">
-            <h1 className="editor-title">{isEdit ? 'Edit/Update Event' : 'Create an Event'}</h1>
+      <div className='editor-page'>
+        <main className='editor-container'>
+          <div className='editor-card'>
+            <h1 className='editor-title'>{isEdit ? 'Edit/Update Event' : 'Create an Event'}</h1>
 
-            <form className="editor-form" onSubmit={handleSubmit}>
-              <div className="editor-top-grid">
-                <div className="form-col left-col">
-                  <div className="input-group">
-                    <label className="form-label" htmlFor="title">
+            <form className='editor-form' onSubmit={handleSubmit}>
+              <div className='editor-top-grid'>
+                <div className='form-col left-col'>
+                  <div className='input-group'>
+                    <label className='form-label' htmlFor='title'>
                       Event Name
                     </label>
                     <input
-                      id="title"
-                      name="title"
-                      type="text"
-                      className="form-input"
-                      placeholder="Jars Of Hope"
+                      id='title'
+                      name='title'
+                      type='text'
+                      className='form-input'
+                      placeholder='Jars Of Hope'
                       value={formData.title}
                       onChange={handleChange}
                       required
                     />
                   </div>
 
-                  <div className="input-group">
-                    <label className="form-label" htmlFor="location">
+                  <div className='input-group'>
+                    <label className='form-label' htmlFor='location'>
                       Location
                     </label>
                     <input
-                      id="location"
-                      name="location"
-                      type="text"
-                      className="form-input"
-                      placeholder="Randburg"
+                      id='location'
+                      name='location'
+                      type='text'
+                      className='form-input'
+                      placeholder='Randburg'
                       value={formData.location}
                       onChange={handleChange}
                       required
                     />
                   </div>
 
-                  <div className="input-group">
-                    <label className="form-label">Start and end of event</label>
-                    <div className="time-picker-row">
-                      <span className="time-sublabel">From</span>
+                  <div className='input-group'>
+                    <label className='form-label'>Start and end of event</label>
+                    <div className='time-picker-row'>
+                      <span className='time-sublabel'>From</span>
                       <input
-                        type="text"
-                        name="fromTime"
-                        className="form-input time-input"
+                        type='text'
+                        name='fromTime'
+                        className='form-input time-input'
                         value={formData.fromTime}
                         onChange={handleChange}
                       />
-                      <span className="time-sublabel">To</span>
+                      <span className='time-sublabel'>To</span>
                       <input
-                        type="text"
-                        name="toTime"
-                        className="form-input time-input"
+                        type='text'
+                        name='toTime'
+                        className='form-input time-input'
                         value={formData.toTime}
                         onChange={handleChange}
                       />
                     </div>
                   </div>
 
-                  <div className="input-group">
-                    <label className="form-label">Pick a date</label>
-                    <div className="date-dropdown-row">
+                  <div className='input-group'>
+                    <label className='form-label'>Pick a date</label>
+                    <div className='date-dropdown-row'>
                       <select
-                        name="dateMonth"
-                        className="form-select"
+                        name='dateMonth'
+                        className='form-select'
                         value={formData.dateMonth}
                         onChange={handleChange}
                       >
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
+                        <option value='January'>January</option>
+                        <option value='February'>February</option>
+                        <option value='March'>March</option>
+                        <option value='April'>April</option>
+                        <option value='May'>May</option>
+                        <option value='June'>June</option>
+                        <option value='July'>July</option>
+                        <option value='August'>August</option>
+                        <option value='September'>September</option>
+                        <option value='October'>October</option>
+                        <option value='November'>November</option>
+                        <option value='December'>December</option>
                       </select>
 
                       <select
-                        name="dateDay"
-                        className="form-select date-day"
+                        name='dateDay'
+                        className='form-select date-day'
                         value={formData.dateDay}
                         onChange={handleChange}
                       >
@@ -291,43 +291,43 @@ function EventEditor({ isEdit = false }) {
                       </select>
 
                       <select
-                        name="dateYear"
-                        className="form-select date-year"
+                        name='dateYear'
+                        className='form-select date-year'
                         value={formData.dateYear}
                         onChange={handleChange}
                       >
-                        <option value="2026">2026</option>
-                        <option value="2027">2027</option>
+                        <option value='2026'>2026</option>
+                        <option value='2027'>2027</option>
                       </select>
                     </div>
                   </div>
 
-                  <div className="input-group">
-                    <label className="form-label" htmlFor="volunteersMax">
+                  <div className='input-group'>
+                    <label className='form-label' htmlFor='volunteersMax'>
                       Volunteer Capacity
                     </label>
                     <input
-                      id="volunteersMax"
-                      name="volunteersMax"
-                      type="number"
-                      min="1"
-                      className="form-input"
+                      id='volunteersMax'
+                      name='volunteersMax'
+                      type='number'
+                      min='1'
+                      className='form-input'
                       value={formData.volunteersMax}
                       onChange={handleChange}
                     />
                   </div>
                 </div>
 
-                <div className="form-col middle-col">
-                  <div className="input-group full-height-group">
-                    <label className="form-label" htmlFor="description">
+                <div className='form-col middle-col'>
+                  <div className='input-group full-height-group'>
+                    <label className='form-label' htmlFor='description'>
                       Description
                     </label>
                     <textarea
-                      id="description"
-                      name="description"
-                      className="form-textarea"
-                      placeholder="Pack and prepare Jars of Hope filled with essential ingredients for families in need..."
+                      id='description'
+                      name='description'
+                      className='form-textarea'
+                      placeholder='Pack and prepare Jars of Hope filled with essential ingredients for families in need...'
                       value={formData.description}
                       onChange={handleChange}
                       required
@@ -335,16 +335,16 @@ function EventEditor({ isEdit = false }) {
                   </div>
                 </div>
 
-                <div className="form-col right-col">
-                  <label className="form-label">Roles Needed</label>
-                  <div className="roles-card">
-                    <div className="roles-list">
+                <div className='form-col right-col'>
+                  <label className='form-label'>Roles Needed</label>
+                  <div className='roles-card'>
+                    <div className='roles-list'>
                       {roles.map((role, idx) => (
-                        <div key={idx} className="role-pill-item">
+                        <div key={idx} className='role-pill-item'>
                           <span>{role}</span>
                           <button
-                            type="button"
-                            className="btn-role-remove"
+                            type='button'
+                            className='btn-role-remove'
                             onClick={() => handleRemoveRole(idx)}
                             aria-label={`Remove role ${role}`}
                           >
@@ -354,11 +354,11 @@ function EventEditor({ isEdit = false }) {
                       ))}
                     </div>
 
-                    <div className="add-role-row">
+                    <div className='add-role-row'>
                       <input
-                        type="text"
-                        className="role-inline-input"
-                        placeholder="New role name..."
+                        type='text'
+                        className='role-inline-input'
+                        placeholder='New role name...'
                         value={newRole}
                         onChange={(e) => setNewRole(e.target.value)}
                         onKeyDown={(e) => {
@@ -368,7 +368,7 @@ function EventEditor({ isEdit = false }) {
                           }
                         }}
                       />
-                      <button type="button" className="btn-role-add" onClick={handleAddRole}>
+                      <button type='button' className='btn-role-add' onClick={handleAddRole}>
                         + Add Role
                       </button>
                     </div>
@@ -376,26 +376,26 @@ function EventEditor({ isEdit = false }) {
                 </div>
               </div>
 
-              <div className="editor-banner-section">
-                <label className="form-label">Event Banner</label>
-                <p className="banner-sublabel">Upload the banner image for this event</p>
+              <div className='editor-banner-section'>
+                <label className='form-label'>Event Banner</label>
+                <p className='banner-sublabel'>Upload the banner image for this event</p>
 
-                <label className="banner-upload-box">
-                  <input type="file" accept="image/*" onChange={handleImageFile} hidden />
+                <label className='banner-upload-box'>
+                  <input type='file' accept='image/*' onChange={handleImageFile} hidden />
                   {imagePreview ? (
                     <img
                       src={imagePreview}
-                      alt="Event Banner Preview"
-                      className="banner-preview-img"
+                      alt='Event Banner Preview'
+                      className='banner-preview-img'
                     />
                   ) : (
                     <>
-                      <div className="banner-icon-area">
-                        <i className="fi fi-sr-picture"></i>
+                      <div className='banner-icon-area'>
+                        <i className='fi fi-sr-picture'></i>
                       </div>
-                      <div className="banner-text-area">
-                        <span className="banner-upload-title">Click to upload banner image</span>
-                        <span className="banner-upload-specs">
+                      <div className='banner-text-area'>
+                        <span className='banner-upload-title'>Click to upload banner image</span>
+                        <span className='banner-upload-specs'>
                           JPG, PNG or WEBP. Recommended size 1200 x 450px
                         </span>
                       </div>
@@ -404,16 +404,16 @@ function EventEditor({ isEdit = false }) {
                 </label>
               </div>
 
-              <div className="editor-footer-actions">
+              <div className='editor-footer-actions'>
                 <button
-                  type="button"
-                  className="btn-editor-cancel"
+                  type='button'
+                  className='btn-editor-cancel'
                   onClick={() => navigate('/admin')}
                   disabled={loading}
                 >
                   Cancel
                 </button>
-                <button type="submit" className="btn-editor-submit" disabled={loading}>
+                <button type='submit' className='btn-editor-submit' disabled={loading}>
                   {loading ? 'Saving...' : isEdit ? 'Update Event' : 'Create Event'}
                 </button>
               </div>

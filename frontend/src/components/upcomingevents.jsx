@@ -36,7 +36,6 @@ function UpcomingEvents({ events = [], loading = false, currentUser, onLeave }) 
       await onLeave(eventToLeave._id || eventToLeave.id);
       setLeaveSuccess(true);
     } catch {
-      // If error occurs, onLeave already handled/alerted it
     } finally {
       setIsLeaving(false);
     }

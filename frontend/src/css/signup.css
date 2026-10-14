@@ -164,7 +164,7 @@
 
 .signup-page .phone-number-input {
   flex: 1;
-  width: auto;
+  width: 75%;
 }
 
 .password-input-wrapper {

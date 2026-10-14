@@ -4,6 +4,7 @@ import DeleteModal from './deletionmodel.jsx';
 import '../css/admineventsmanager.css';
 
 function AdminEventsManager() {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [selectedEventId, setSelectedEventId] = useState(null);

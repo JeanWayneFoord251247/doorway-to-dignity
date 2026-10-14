@@ -6,7 +6,9 @@ import ViewEventModal from '../components/vieweventmodal.jsx';
 import LogoutModal from '../components/logoutmodal.jsx';
 import '../css/account.css';
 
+
 function Account() {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -82,7 +84,7 @@ function Account() {
 
     const fetchUserPastEvents = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/events');
+        const res = await fetch(`${API_BASE}/api/events`);
         if (!res.ok) throw new Error('Failed to load events');
         const data = await res.json();
 

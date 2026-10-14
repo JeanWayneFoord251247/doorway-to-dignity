@@ -5,7 +5,9 @@ import AnimatedBackground from '../components/animatedbackground.jsx';
 import Grainient from '../components/gradient.jsx';
 import '../css/eventeditor.css';
 
+
 function EventEditor({ isEdit = false }) {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -31,7 +33,7 @@ function EventEditor({ isEdit = false }) {
     if (isEdit && id) {
       const fetchEventData = async () => {
         try {
-          const res = await fetch(`http://localhost:5000/api/events/${id}`);
+          const res = await fetch(`${API_BASE}/api/events/${id}`);
           if (!res.ok) throw new Error('Event not found');
           const data = await res.json();
 
@@ -134,8 +136,8 @@ function EventEditor({ isEdit = false }) {
     try {
       const endpoint =
         isEdit && id
-          ? `http://localhost:5000/api/events/${id}`
-          : 'http://localhost:5000/api/events';
+          ? `${API_BASE}/api/events/${id}`
+          : `${API_BASE}/api/events`;
 
       const method = isEdit && id ? 'PUT' : 'POST';
 

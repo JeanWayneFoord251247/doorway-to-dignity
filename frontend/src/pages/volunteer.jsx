@@ -8,6 +8,7 @@ import AvailableEvents from '../components/availableevents.jsx';
 import '../css/volunteer.css';
 
 function VolunteerPage() {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,7 +19,7 @@ function VolunteerPage() {
 
   const fetchAllEvents = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/events');
+      const res = await fetch(`${API_BASE}/api/events`);
       if (!res.ok) throw new Error('Failed to load events');
       const data = await res.json();
       setEvents(data);
@@ -38,7 +39,7 @@ function VolunteerPage() {
     if (!token) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${eventId}/signup`, {
+      const res = await fetch(`${API_BASE}/api/events/${eventId}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ function VolunteerPage() {
     if (!token) return;
 
     try {
-      const res = await fetch(`http://localhost:5000/api/events/${eventId}/leave`, {
+      const res = await fetch(`${API_BASE}/api/events/${eventId}/leave`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

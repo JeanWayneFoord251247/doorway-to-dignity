@@ -4,6 +4,7 @@ import AnimatedBackground from '../components/animatedbackground.jsx';
 import Grainient from '../components/gradient.jsx';
 import '../css/faq.css';
 
+
 const defaultFaqs = [
   {
     _id: '1',
@@ -38,6 +39,7 @@ const defaultFaqs = [
 ];
 
 function FAQ() {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   const [faqs, setFaqs] = useState([]);
   const [openId, setOpenId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,7 +51,7 @@ function FAQ() {
 
   const fetchFaqs = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/faqs');
+      const res = fetch(`${API_BASE}/api/faqs`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       setFaqs(data.length > 0 ? data : defaultFaqs);
@@ -82,7 +84,7 @@ function FAQ() {
   const handleDelete = async (id, e) => {
     e.stopPropagation();
     try {
-      await fetch(`http://localhost:5000/api/faqs/${id}`, { method: 'DELETE' });
+      await fetch(`${API_BASE}/api/faqs/${id}`, { method: 'DELETE' });
       setFaqs((prev) => prev.filter((item) => (item._id || item.id) !== id));
     } catch {
       setFaqs((prev) => prev.filter((item) => (item._id || item.id) !== id));
@@ -96,7 +98,7 @@ function FAQ() {
     if (editingFaq) {
       try {
         const id = editingFaq._id || editingFaq.id;
-        const res = await fetch(`http://localhost:5000/api/faqs/${id}`, {
+        const res = await fetch(`${API_BASE}/api/faqs/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
@@ -116,7 +118,7 @@ function FAQ() {
       }
     } else {
       try {
-        const res = await fetch('http://localhost:5000/api/faqs', {
+        const res = await fetch(`${API_BASE}/api/faqs`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),

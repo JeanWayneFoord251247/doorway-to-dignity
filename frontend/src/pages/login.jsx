@@ -5,7 +5,9 @@ import '../css/login.css';
 import loginHero from '../assets/img/signup.png';
 import Grainient from '../components/gradient.jsx';
 
+
 function Login() {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   const [isClosing, setIsClosing] = useState(false);
   const [credentials, setCredentials] = useState({
     email: '',
@@ -31,7 +33,7 @@ function Login() {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch(`${API_BASE}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

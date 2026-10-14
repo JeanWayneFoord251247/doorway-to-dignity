@@ -142,6 +142,22 @@ function Signup() {
           <div className='signup-columns'>
             <div className='signup-left'>
               <h1 className='signup-title'>Sign Up</h1>
+              <div
+                style={{
+                  backgroundColor: '#fff3cd',
+                  color: '#856404',
+                  border: '1px solid #ffeeba',
+                  borderRadius: '8px',
+                  padding: '10px 14px',
+                  fontSize: '12px',
+                  marginBottom: '16px',
+                  lineHeight: '1.4',
+                }}
+              >
+                <strong>Notice:</strong> This is an academic student project for demonstration
+                purposes. Please do <strong>not</strong> use your real personal information, real
+                phone numbers, or everyday passwords.
+              </div>
               <form className='signup-form' onSubmit={handleSubmit}>
                 {errorMessage && <div className='signup-error-banner'>{errorMessage}</div>}
                 <div className='form-group'>

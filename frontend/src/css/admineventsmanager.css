@@ -14,7 +14,10 @@
   flex-direction: column;
   gap: 24px;
   border: 1px solid rgba(226, 232, 240, 0.8);
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .admin-events-viewer:hover {
@@ -244,6 +247,8 @@
 }
 
 .meta-pill.pill-wide {
+  display: flex;
+  flex-wrap: wrap;
   padding: 0 18px;
 }
 

@@ -50,6 +50,9 @@ mongoose
   .connect(MONGO_URI)
   .then(() => {
     console.log('MongoDB Connected Successfully');
+    app.get('/', (req, res) => {
+      res.status(200).send('OK');
+    });
     server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => {

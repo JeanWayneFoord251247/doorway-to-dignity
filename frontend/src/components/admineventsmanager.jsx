@@ -14,7 +14,7 @@ function AdminEventsManager() {
 
   const fetchEvents = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/events');
+      const res = await fetch(`${API_BASE}/api/events`);
       if (!res.ok) throw new Error('Failed to fetch events');
       const data = await res.json();
       setEvents(data);
@@ -58,7 +58,7 @@ function AdminEventsManager() {
     const token = localStorage.getItem('token');
     try {
       const res = await fetch(
-        `http://localhost:5000/api/events/${selectedEvent._id || selectedEvent.id}`,
+        `${API_BASE}/api/events/${selectedEvent._id || selectedEvent.id}`,
         {
           method: 'DELETE',
           headers: {

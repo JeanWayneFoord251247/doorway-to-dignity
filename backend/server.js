@@ -4,7 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import eventRoutes from './routes/eventRoutes.js';
 import authRoutes from './routes/authRoutes.js';
-import faqRoutes from './routes/faqRoutes.js'; 
+import faqRoutes from './routes/faqRoutes.js';
 
 dotenv.config();
 
@@ -41,7 +41,7 @@ app.use('/api/events', eventRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/faqs', faqRoutes);
 
-const PORT = process.env.PORT || 8080; 
+const PORT = process.env.PORT || 8080;
 const MONGO_URI = process.env.MONGO_URI;
 
 let server;
@@ -57,15 +57,19 @@ mongoose
     process.exit(1);
   });
 
-process.on('SIGTERM', () => {
+process.on('SIGTERM', async () => {
   console.log('SIGTERM received: closing HTTP server');
   if (server) {
-    server.close(() => {
+    server.close(async () => {
       console.log('HTTP server closed');
-      mongoose.connection.close(false, () => {
+      try {
+        await mongoose.connection.close();
         console.log('MongoDB connection closed');
         process.exit(0);
-      });
+      } catch (err) {
+        console.error('Error closing MongoDB connection', err);
+        process.exit(1);
+      }
     });
   }
 });

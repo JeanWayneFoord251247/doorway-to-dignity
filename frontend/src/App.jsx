@@ -9,6 +9,7 @@ import EventEditor from './pages/eventeditor.jsx';
 import Account from './pages/account.jsx';
 import Volunteers from './pages/volunteersearch.jsx'
 import FAQ from './pages/faq.jsx'
+import StudentDisclaimerModal from './components/studentdisclaimer.jsx'
 import { useAutoLogout } from './hooks/useautologout.jsx';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <div className='app-container'>
+      <StudentDisclaimerModal />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/signup' element={<Signup />} />

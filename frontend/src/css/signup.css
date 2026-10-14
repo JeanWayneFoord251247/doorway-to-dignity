@@ -88,7 +88,7 @@
 .signup-columns {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: stretch;
   justify-content: space-between;
   width: 100%;
   gap: 56px;
@@ -109,6 +109,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  height: 100%;
 }
 
 .signup-form {
@@ -306,7 +307,7 @@
 
 .btn-login-secondary {
   background-color: #ffffff;
-  color: #111827;
+  color: #00a8cc;
   border: 1.5px solid #00a8cc;
   text-decoration: none;
 }
@@ -322,7 +323,7 @@
 
 .why-join-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .why-join-title {
@@ -346,11 +347,12 @@
 
 .why-join-image-container {
   width: 100%;
-  height: 225px;
-  border-radius: 16px;
+  height: 250px;
+  border-radius: 18px;
   overflow: hidden;
   margin-bottom: 24px;
   box-sizing: border-box;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
 }
 
 .why-join-image {
@@ -363,17 +365,24 @@
 .why-join-benefits {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  justify-content: space-around;
+  flex: 1;
+  gap: 20px;
   width: 100%;
   box-sizing: border-box;
 }
 
 .why-join-faq-hint {
   margin-top: auto;
-  padding-top: 20px;
+  padding: 14px 16px;
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
   font-size: 12.5px;
   color: #6b7280;
   text-align: center;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .why-join-faq-hint a {
@@ -388,22 +397,33 @@
 
 .benefit-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   text-align: left;
   gap: 14px;
   width: 100%;
+  padding: 10px 14px;
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
   box-sizing: border-box;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.benefit-item:hover {
+  transform: translateY(-2px);
+  border-color: #e0f2fe;
 }
 
 .benefit-icon-badge {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 9999px;
   background-color: #00a8cc;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 168, 204, 0.2);
 }
 
 .benefit-icon-badge i {
@@ -460,6 +480,15 @@
 
   .why-join-image-container {
     height: 220px;
+  }
+
+  .why-join-benefits {
+    flex: none;
+    gap: 14px;
+  }
+
+  .why-join-faq-hint {
+    margin-top: 20px;
   }
 }
 
@@ -527,6 +556,7 @@
 
   .benefit-item {
     gap: 10px;
+    padding: 8px 12px;
   }
 
   .benefit-icon-badge {

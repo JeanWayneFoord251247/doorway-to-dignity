@@ -10,29 +10,9 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.banner-upload-box {
-  cursor: pointer;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px dashed #cbd5e1;
-  border-radius: 16px;
-  min-height: 140px;
-  background: #f8fafc;
-}
-
-.banner-preview-img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 12px;
-  display: block;
-}
-
 .editor-container {
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   padding: 24px 20px 60px;
   box-sizing: border-box;
@@ -44,6 +24,8 @@
   padding: 36px 40px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   border: 1.5px solid transparent;
+  box-sizing: border-box;
+  width: 100%;
   transition:
     border-color 0.25s ease,
     box-shadow 0.25s ease;
@@ -60,12 +42,15 @@
   color: #111827;
   text-align: center;
   margin: 0 0 32px 0;
+  word-break: break-word;
 }
 
 .editor-form {
   display: flex;
   flex-direction: column;
   gap: 28px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .editor-top-grid {
@@ -73,18 +58,26 @@
   grid-template-columns: 1fr 1.2fr 1.1fr;
   gap: 24px;
   align-items: stretch;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-col {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .input-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .full-height-group {
@@ -120,23 +113,33 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .time-sublabel {
   font-size: 11px;
   color: #6b7280;
+  white-space: nowrap;
 }
 
 .time-input {
   text-align: center;
+  flex: 1;
+  min-width: 0;
 }
 
 .date-dropdown-row {
   display: flex;
   gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .form-select {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
   height: 38px;
   padding: 0 24px 0 12px;
   border: 1.5px solid #00bcd4;
@@ -148,6 +151,7 @@
   outline: none;
   cursor: pointer;
   appearance: auto;
+  box-sizing: border-box;
 }
 
 .form-textarea {
@@ -163,7 +167,7 @@
   color: #111827;
   box-sizing: border-box;
   outline: none;
-  resize: none;
+  resize: vertical;
 }
 
 .form-textarea:focus {
@@ -180,6 +184,8 @@
   justify-content: space-between;
   gap: 12px;
   box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
 }
 
 .roles-list {
@@ -188,6 +194,8 @@
   gap: 8px;
   overflow-y: auto;
   max-height: 180px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .role-pill-item {
@@ -200,6 +208,9 @@
   font-size: 11px;
   font-weight: 600;
   color: #111827;
+  gap: 8px;
+  box-sizing: border-box;
+  word-break: break-word;
 }
 
 .btn-role-remove {
@@ -211,6 +222,7 @@
   cursor: pointer;
   line-height: 1;
   padding: 0 4px;
+  flex-shrink: 0;
 }
 
 .btn-role-remove:hover {
@@ -221,16 +233,20 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .role-inline-input {
   height: 30px;
+  width: 100%;
   border-radius: 9999px;
   border: none;
   padding: 0 12px;
   font-size: 11px;
   font-family: 'Poppins', sans-serif;
   outline: none;
+  box-sizing: border-box;
 }
 
 .btn-role-add {
@@ -245,6 +261,7 @@
   font-weight: 600;
   cursor: pointer;
   padding: 4px;
+  width: fit-content;
 }
 
 .btn-role-add:hover {
@@ -257,6 +274,8 @@
   gap: 4px;
   border-top: 1px solid #e5e7eb;
   padding-top: 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .banner-sublabel {
@@ -275,6 +294,11 @@
   justify-content: center;
   gap: 16px;
   cursor: pointer;
+  min-height: 140px;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  width: 100%;
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
@@ -285,35 +309,51 @@
   border-color: #00bcd4;
 }
 
+.banner-preview-img {
+  width: 100%;
+  max-height: 240px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
 .banner-icon-area {
   font-size: 32px;
   color: #4b5563;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .banner-text-area {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .banner-upload-title {
   font-size: 12px;
   font-weight: 700;
   color: #111827;
+  word-break: break-word;
 }
 
 .banner-upload-specs {
   font-size: 10px;
   color: #4b5563;
+  word-break: break-word;
 }
 
 .editor-footer-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   margin-top: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .btn-editor-cancel {
@@ -327,6 +367,10 @@
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   transition: all 0.15s ease;
 }
 
@@ -347,6 +391,10 @@
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   transition: all 0.15s ease;
 }
 
@@ -355,8 +403,63 @@
   transform: scale(1.03);
 }
 
-@media (max-width: 900px) {
+@media (max-width: 992px) {
   .editor-top-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .form-textarea {
+    min-height: 160px;
+  }
+
+  .roles-card {
+    min-height: 220px;
+  }
+}
+
+@media (max-width: 640px) {
+  .editor-container {
+    padding: 16px 12px 40px;
+  }
+
+  .editor-card {
+    padding: 24px 16px;
+    border-radius: 20px;
+  }
+
+  .editor-title {
+    font-size: 22px;
+    margin-bottom: 24px;
+  }
+
+  .editor-form {
+    gap: 20px;
+  }
+
+  .date-dropdown-row {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .banner-upload-box {
+    padding: 20px 14px;
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .banner-text-area {
+    align-items: center;
+  }
+
+  .editor-footer-actions {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+
+  .btn-editor-cancel,
+  .btn-editor-submit {
+    width: 100%;
   }
 }

@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import '../css/adminsidebar.css';
+import LogoutModal from './logoutmodal';
 
 function AdminSidebar({ user, onLogout }) {
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const navigate = useNavigate();
   const [eventsOpen, setEventsOpen] = useState(true);
 
-  const handleLogout = () => {
+  const handleConfirmLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('isAuthenticated');
     localStorage.removeItem('userRole');
-    if (onLogout) {
-      onLogout();
-    }
+    setIsLogoutModalOpen(false);
     navigate('/login');
   };
 
@@ -26,11 +26,7 @@ function AdminSidebar({ user, onLogout }) {
           <div className='admin-profile-header'>
             <div className='admin-avatar-container'>
               {user?.avatar ? (
-                <img
-                  src={user.avatar}
-                  alt={user?.name || 'Admin'}
-                  className='admin-avatar-img'
-                />
+                <img src={user.avatar} alt={user?.name || 'Admin'} className='admin-avatar-img' />
               ) : (
                 <div className='admin-avatar-fallback'>
                   <i className='fi fi-sr-user'></i>
@@ -82,13 +78,22 @@ function AdminSidebar({ user, onLogout }) {
           </nav>
         </div>
 
-        <button type='button' className='admin-menu-item logout' onClick={handleLogout}>
+        <button
+          type='button'
+          className='admin-menu-item logout'
+          onClick={() => setIsLogoutModalOpen(true)}
+        >
           <div className='admin-menu-left'>
             <i className='fi fi-sr-sign-out-alt'></i>
             <span>Log Out</span>
           </div>
         </button>
       </div>
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onConfirm={handleConfirmLogout}
+        onCancel={() => setIsLogoutModalOpen(false)}
+      />
     </aside>
   );
 }

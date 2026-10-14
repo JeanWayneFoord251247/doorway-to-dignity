@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import AnimatedBackground from '../components/animatedbackground.jsx';
 import Grainient from '../components/gradient.jsx';
 import ViewEventModal from '../components/vieweventmodal.jsx';
+import LogoutModal from '../components/logoutmodal.jsx';
 import '../css/account.css';
 
 function Account() {
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const [userData, setUserData] = useState({
@@ -123,6 +125,15 @@ function Account() {
     }));
   };
 
+  const handleConfirmLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('userRole');
+    setIsLogoutModalOpen(false);
+    navigate('/login');
+  };
+
   const handleCloseToDashboard = () => {
     const userRole = localStorage.getItem('userRole');
     if (userRole === 'admin') {
@@ -130,14 +141,6 @@ function Account() {
     } else {
       navigate('/volunteer');
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('isAuthenticated');
-    localStorage.removeItem('userRole');
-    navigate('/');
   };
 
   const handleImageUpload = (e) => {
@@ -341,7 +344,11 @@ function Account() {
                 </div>
 
                 <div className='account-actions-row'>
-                  <button type='button' className='btn-logout' onClick={handleLogout}>
+                  <button
+                    type='button'
+                    className='btn-logout'
+                    onClick={() => setIsLogoutModalOpen(true)}
+                  >
                     Log Out
                   </button>
                 </div>
@@ -406,6 +413,12 @@ function Account() {
         event={selectedEventForView}
         userRole={selectedEventForView ? getAssignedRole(selectedEventForView) : ''}
         onClose={() => setSelectedEventForView(null)}
+      />
+
+      <LogoutModal
+        isOpen={isLogoutModalOpen}
+        onConfirm={handleConfirmLogout}
+        onCancel={() => setIsLogoutModalOpen(false)}
       />
     </>
   );

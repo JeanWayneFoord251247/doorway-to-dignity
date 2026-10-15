@@ -5,7 +5,6 @@ import '../css/login.css';
 import loginHero from '../assets/img/signup.png';
 import Grainient from '../components/gradient.jsx';
 
-
 function Login() {
   const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   const [isClosing, setIsClosing] = useState(false);
@@ -48,6 +47,12 @@ function Login() {
 
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
+      }
+
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'login', {
+          method: 'email',
+        });
       }
 
       localStorage.setItem('token', data.token);

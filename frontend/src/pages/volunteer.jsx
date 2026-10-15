@@ -54,9 +54,13 @@ function VolunteerPage() {
         throw new Error(data.message || 'Could not sign up for this event');
       }
 
-      setEvents((prev) =>
-        prev.map((evt) => (evt._id === eventId ? data.event : evt))
-      );
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'join_group', {
+          group_id: eventId,
+        });
+      }
+
+      setEvents((prev) => prev.map((evt) => (evt._id === eventId ? data.event : evt)));
     } catch (err) {
       console.error(err.message);
     }
@@ -80,9 +84,7 @@ function VolunteerPage() {
         throw new Error(data.message || 'Could not leave event');
       }
 
-      setEvents((prev) =>
-        prev.map((evt) => (evt._id === eventId ? data.event : evt))
-      );
+      setEvents((prev) => prev.map((evt) => (evt._id === eventId ? data.event : evt)));
     } catch (err) {
       console.error(err.message);
       throw err;
@@ -107,9 +109,9 @@ function VolunteerPage() {
     <>
       <AnimatedBackground />
       <Grainient
-        color1="#E9E3D5"
-        color2="#13C0D1"
-        color3="#E9E3D5"
+        color1='#E9E3D5'
+        color2='#13C0D1'
+        color3='#E9E3D5'
         timeSpeed={1.0}
         colorBalance={0}
         warpStrength={4}
@@ -133,9 +135,9 @@ function VolunteerPage() {
 
       <Navbar />
 
-      <div className="volunteer-page">
-        <main className="volunteer-container">
-          <div className="volunteer-top-grid">
+      <div className='volunteer-page'>
+        <main className='volunteer-container'>
+          <div className='volunteer-top-grid'>
             <UpcomingEvents
               events={upcomingEvents}
               loading={loading}

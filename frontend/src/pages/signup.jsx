@@ -62,6 +62,12 @@ function Signup() {
         throw new Error(data.message || 'Signup failed');
       }
 
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'sign_up', {
+          method: 'email',
+        });
+      }
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data));
       localStorage.setItem('isAuthenticated', 'true');

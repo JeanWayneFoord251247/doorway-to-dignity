@@ -35,10 +35,38 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
     }
   }, [selectedEventId, activeEvent]);
 
+  const handleSelectEvent = (event) => {
+    const eventKey = event._id || event.id;
+    setSelectedEventId(eventKey);
+
+    // GA4: Track selecting/viewing an event card from the list
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'select_content', {
+        content_type: 'event',
+        item_id: String(eventKey),
+      });
+    }
+  };
+
   const handleOpenSignUpModal = () => {
     if (!activeEvent) return;
     setIsSuccess(false);
     setIsModalOpen(true);
+
+    // GA4: Track user intent to sign up for an event
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'select_item', {
+        item_list_id: 'available_events',
+        item_list_name: 'Available Volunteer Events',
+        items: [
+          {
+            item_id: String(activeEvent._id || activeEvent.id),
+            item_name: activeEvent.title,
+            item_category: selectedRole,
+          },
+        ],
+      });
+    }
   };
 
   const handleConfirmSignUp = async () => {
@@ -92,7 +120,7 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
                     <div
                       key={eventKey}
                       className={`available-list-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => setSelectedEventId(eventKey)}
+                      onClick={() => handleSelectEvent(event)}
                     >
                       <img
                         src={

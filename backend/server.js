@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import Event from './models/Event.js';
 import eventRoutes from './routes/eventRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import faqRoutes from './routes/faqRoutes.js';
@@ -35,6 +36,40 @@ app.use(express.urlencoded({ limit: '25mb', extended: true }));
 
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'healthy', uptime: process.uptime() });
+});
+
+app.get('/sitemap.xml', async (req, res) => {
+  try {
+    const base = 'https://www.doorwaytodignityow251247.co.za';
+
+    const events = await Event.find().select('_id updatedAt date');
+
+    const urls = [
+      `<url><loc>${base}/</loc></url>`,
+      `<url><loc>${base}/volunteer</loc></url>`,
+      `<url><loc>${base}/faq</loc></url>`,
+      `<url><loc>${base}/signup</loc></url>`,
+      `<url><loc>${base}/login</loc></url>`,
+      ...events.map((evt) => {
+        const id = evt._id || evt.id;
+        const lastMod = evt.updatedAt
+          ? evt.updatedAt.toISOString().slice(0, 10)
+          : new Date().toISOString().slice(0, 10);
+
+        return `<url><loc>${base}/volunteer?event=${id}</loc><lastmod>${lastMod}</lastmod></url>`;
+      }),
+    ];
+
+    res.type('application/xml').send(
+      '<?xml version="1.0" encoding="UTF-8"?>' +
+      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
+      urls.join('') +
+      '</urlset>'
+    );
+  } catch (error) {
+    console.error('Sitemap generation error:', error);
+    res.status(500).end();
+  }
 });
 
 app.use('/api/events', eventRoutes);

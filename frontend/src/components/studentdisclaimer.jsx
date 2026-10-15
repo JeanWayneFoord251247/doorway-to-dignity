@@ -13,6 +13,14 @@ function StudentDisclaimerModal() {
 
   const handleAcknowledge = () => {
     localStorage.setItem('student_disclaimer_accepted', 'true');
+
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'select_content', {
+        content_type: 'disclaimer',
+        item_id: 'student_academic_notice',
+      });
+    }
+
     setIsOpen(false);
   };
 
@@ -30,18 +38,16 @@ function StudentDisclaimerModal() {
 
         <div className='student-disclaimer-content'>
           <p>
-            Welcome to <strong>Doorway To Dignity</strong>. This platform is built and hosted as a student-developed interactive prototype.
+            Welcome to <strong>Doorway To Dignity</strong>. This platform is built and hosted as a
+            student-developed interactive prototype.
           </p>
           <p>
-            All information and data provided on this site are treated with strict confidentiality, kept private, and stored safely in an isolated, secure database.
+            All information and data provided on this site are treated with strict confidentiality,
+            kept private, and stored safely in an isolated, secure database.
           </p>
         </div>
 
-        <button
-          type='button'
-          className='btn-student-disclaimer-ack'
-          onClick={handleAcknowledge}
-        >
+        <button type='button' className='btn-student-disclaimer-ack' onClick={handleAcknowledge}>
           I Understand & Agree
         </button>
       </div>

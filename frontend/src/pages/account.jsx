@@ -6,7 +6,6 @@ import ViewEventModal from '../components/vieweventmodal.jsx';
 import LogoutModal from '../components/logoutmodal.jsx';
 import '../css/account.css';
 
-
 function Account() {
   const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
@@ -128,6 +127,9 @@ function Account() {
   };
 
   const handleConfirmLogout = () => {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'logout');
+    }
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('isAuthenticated');

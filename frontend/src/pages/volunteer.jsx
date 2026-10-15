@@ -84,6 +84,12 @@ function VolunteerPage() {
         throw new Error(data.message || 'Could not leave event');
       }
 
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'leave_group', {
+          group_id: eventId,
+        });
+      }
+
       setEvents((prev) => prev.map((evt) => (evt._id === eventId ? data.event : evt)));
     } catch (err) {
       console.error(err.message);

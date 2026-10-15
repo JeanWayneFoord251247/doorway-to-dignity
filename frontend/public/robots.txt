@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /admin
+Disallow: /account
+
+Sitemap: https://www.doorwaytodignityow251247.co.za/sitemap.xml

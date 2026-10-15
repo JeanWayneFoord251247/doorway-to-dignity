@@ -7,16 +7,18 @@ import Volunteer from './pages/volunteer.jsx';
 import Admin from './pages/admin.jsx';
 import EventEditor from './pages/eventeditor.jsx';
 import Account from './pages/account.jsx';
-import Volunteers from './pages/volunteersearch.jsx'
-import FAQ from './pages/faq.jsx'
-import StudentDisclaimerModal from './components/studentdisclaimer.jsx'
+import Volunteers from './pages/volunteersearch.jsx';
+import FAQ from './pages/faq.jsx';
+import StudentDisclaimerModal from './components/studentdisclaimer.jsx';
 import { useAutoLogout } from './hooks/useautologout.jsx';
+import CookieBanner from './components/cookiebanner.jsx';
 
 function App() {
   useAutoLogout(15);
 
   return (
     <div className='app-container'>
+      <CookieBanner />
       <StudentDisclaimerModal />
       <Routes>
         <Route path='/' element={<Home />} />
@@ -32,9 +34,9 @@ function App() {
 
         <Route path='/account' element={<Account />} />
 
-        <Route path='/admin/volunteers' element={<Volunteers />}/>
+        <Route path='/admin/volunteers' element={<Volunteers />} />
 
-        <Route path='/faq' element={<FAQ />}/>
+        <Route path='/faq' element={<FAQ />} />
       </Routes>
     </div>
   );

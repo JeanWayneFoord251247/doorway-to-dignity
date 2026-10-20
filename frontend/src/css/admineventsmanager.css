@@ -266,6 +266,8 @@
   color: #334155;
   box-sizing: border-box;
   max-width: 100%;
+  white-space: nowrap; 
+  width: max-content; 
 }
 
 .meta-pill.pill-wide {
@@ -279,7 +281,7 @@
   padding: 8px 16px;
   border-radius: 16px;
   line-height: 1.5;
-  word-break: break-word;
+  word-break: normal;
   white-space: normal;
   box-sizing: border-box;
 }

@@ -52,7 +52,7 @@ app.get('/sitemap.xml', async (req, res) => {
       `<url><loc>${base}/signup</loc></url>`,
       `<url><loc>${base}/login</loc></url>`,
       ...events.map((evt) => {
-        const id = evt._id || evt.id;
+        const id = evt._id;
         const lastMod = evt.updatedAt
           ? evt.updatedAt.toISOString().slice(0, 10)
           : new Date().toISOString().slice(0, 10);

@@ -19,16 +19,16 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
 
   useEffect(() => {
     if (events.length > 0) {
-      const stillExists = events.find((e) => (e._id || e.id) === selectedEventId);
+      const stillExists = events.find((e) => e._id === selectedEventId);
       if (!stillExists) {
-        setSelectedEventId(events[0]._id || events[0].id);
+        setSelectedEventId(events[0]._id);
       }
     } else {
       setSelectedEventId(null);
     }
   }, [events, selectedEventId]);
 
-  const activeEvent = events.find((e) => (e._id || e.id) === selectedEventId) || events[0] || null;
+  const activeEvent = events.find((e) => e._id === selectedEventId) || events[0] || null;
 
   useEffect(() => {
     if (activeEvent?.rolesNeeded && activeEvent.rolesNeeded.length > 0) {
@@ -39,7 +39,7 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
   }, [selectedEventId, activeEvent]);
 
   const handleSelectEvent = (event) => {
-    const eventKey = event._id || event.id;
+    const eventKey = event._id;
     setSelectedEventId(eventKey);
 
     if (typeof window.gtag === 'function') {
@@ -61,7 +61,7 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
         item_list_name: 'Available Volunteer Events',
         items: [
           {
-            item_id: String(activeEvent._id || activeEvent.id),
+            item_id: String(activeEvent._id),
             item_name: activeEvent.title,
             item_category: selectedRole,
           },
@@ -75,7 +75,7 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
 
     setIsSubmitting(true);
     try {
-      await onSignUp(activeEvent._id || activeEvent.id, selectedRole);
+      await onSignUp(activeEvent._id, selectedRole);
       setIsSuccess(true);
     } catch {
       setIsModalOpen(false);
@@ -113,9 +113,9 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
             <div className='available-viewer-body'>
               <aside className='available-events-list'>
                 {events.map((event) => {
-                  const eventKey = event._id || event.id;
+                  const eventKey = event._id;
                   const isSelected =
-                    activeEvent && (activeEvent._id || activeEvent.id) === eventKey;
+                    activeEvent && (activeEvent._id) === eventKey;
 
                   return (
                     <div
@@ -195,7 +195,7 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
                         <button
                           type='button'
                           className='btn-primary'
-                          onClick={() => handleEditClick(activeEvent._id || activeEvent.id)}
+                          onClick={() => handleEditClick(activeEvent._id)}
                         >
                           <Edit size={16} /> Edit Event
                         </button>

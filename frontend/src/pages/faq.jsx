@@ -100,9 +100,9 @@ function FAQ() {
     e.stopPropagation();
     try {
       await fetch(`${API_BASE}/api/faqs/${id}`, { method: 'DELETE' });
-      setFaqs((prev) => prev.filter((item) => (item._id || item.id) !== id));
+      setFaqs((prev) => prev.filter((item) => (item._id) !== id));
     } catch {
-      setFaqs((prev) => prev.filter((item) => (item._id || item.id) !== id));
+      setFaqs((prev) => prev.filter((item) => (item._id) !== id));
     }
   };
 
@@ -112,18 +112,18 @@ function FAQ() {
 
     if (editingFaq) {
       try {
-        const id = editingFaq._id || editingFaq.id;
+        const id = editingFaq._id;
         const res = await fetch(`${API_BASE}/api/faqs/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData),
         });
         const updated = await res.json();
-        setFaqs((prev) => prev.map((item) => ((item._id || item.id) === id ? updated : item)));
+        setFaqs((prev) => prev.map((item) => ((item._id) === id ? updated : item)));
       } catch {
         setFaqs((prev) =>
           prev.map((item) =>
-            (item._id || item.id) === (editingFaq._id || editingFaq.id)
+            (item._id) === (editingFaq._id)
               ? { ...item, ...formData }
               : item
           )
@@ -188,7 +188,7 @@ function FAQ() {
 
         <div className='faq-card-container'>
           {faqs.map((faq) => {
-            const key = faq._id || faq.id;
+            const key = faq._id;
             const isOpen = openId === key;
 
             return (

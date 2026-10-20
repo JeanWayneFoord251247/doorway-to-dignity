@@ -30,7 +30,7 @@ function Account() {
 
   const storedUser = localStorage.getItem('user');
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
-  const currentUserId = currentUser?._id || currentUser?.id;
+  const currentUserId = currentUser?._id;
   const currentUserEmail = currentUser?.email;
 
   const parseEventDate = (dateStr) => {
@@ -59,7 +59,7 @@ function Account() {
     }
 
     const rosterEntry = event.volunteersList.find((v) => {
-      const rosterId = v.userId?._id || v.userId;
+      const rosterId = v.userId?._id;
       const matchesId = currentUserId && String(rosterId) === String(currentUserId);
       const matchesEmail =
         currentUserEmail && v.email?.toLowerCase() === currentUserEmail.toLowerCase();
@@ -95,7 +95,7 @@ function Account() {
           if (!evt.volunteersList || !Array.isArray(evt.volunteersList)) return false;
 
           const isRegistered = evt.volunteersList.some((v) => {
-            const rosterId = v.userId?._id || v.userId;
+            const rosterId = v.userId?._id;
             const matchesId = currentUserId && String(rosterId) === String(currentUserId);
             const matchesEmail =
               currentUserEmail && v.email?.toLowerCase() === currentUserEmail.toLowerCase();
@@ -375,7 +375,7 @@ function Account() {
                 ) : (
                   <div className='events-list'>
                     {pastEvents.map((evt) => (
-                      <div key={evt._id || evt.id} className='event-item-row'>
+                      <div key={evt._id} className='event-item-row'>
                         {evt.image ? (
                           <img src={evt.image} alt={evt.title} className='event-thumb' />
                         ) : (

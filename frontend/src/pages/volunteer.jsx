@@ -14,7 +14,7 @@ function VolunteerPage() {
 
   const storedUser = localStorage.getItem('user');
   const currentUser = storedUser ? JSON.parse(storedUser) : null;
-  const currentUserId = currentUser?._id || currentUser?.id;
+  const currentUserId = currentUser?._id;
   const currentUserEmail = currentUser?.email;
 
   const fetchAllEvents = async () => {
@@ -100,7 +100,7 @@ function VolunteerPage() {
   const isUserRegistered = (evt) => {
     if (!evt.volunteersList || !Array.isArray(evt.volunteersList)) return false;
     return evt.volunteersList.some((v) => {
-      const rosterUserId = v.userId?._id || v.userId;
+      const rosterUserId = v.userId?._id;
       const matchesId = currentUserId && String(rosterUserId) === String(currentUserId);
       const matchesEmail =
         currentUserEmail && v.email?.toLowerCase() === currentUserEmail.toLowerCase();

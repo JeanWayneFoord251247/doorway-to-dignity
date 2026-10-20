@@ -27,7 +27,7 @@ function VolunteerCalendar({ events = [] }) {
   const currentMonth = months[currentMonthIndex];
 
   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-  const currentUserId = currentUser._id || currentUser.id;
+  const currentUserId = currentUser._id;
   const currentUserEmail = currentUser.email;
   const today = new Date();
 

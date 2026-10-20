@@ -9,7 +9,7 @@ function UpcomingEvents({ events = [], loading = false, currentUser, onLeave }) 
   const [isLeaving, setIsLeaving] = useState(false);
   const [leaveSuccess, setLeaveSuccess] = useState(false);
 
-  const currentUserId = currentUser?._id || currentUser?.id;
+  const currentUserId = currentUser?._id;
   const currentUserEmail = currentUser?.email;
 
   const getAssignedRole = (event) => {
@@ -18,7 +18,7 @@ function UpcomingEvents({ events = [], loading = false, currentUser, onLeave }) 
     }
 
     const rosterEntry = event.volunteersList.find((v) => {
-      const rosterId = v.userId?._id || v.userId;
+      const rosterId = v.userId?._id;
       const matchesId = currentUserId && String(rosterId) === String(currentUserId);
       const matchesEmail =
         currentUserEmail && v.email?.toLowerCase() === currentUserEmail.toLowerCase();
@@ -33,7 +33,7 @@ function UpcomingEvents({ events = [], loading = false, currentUser, onLeave }) 
 
     setIsLeaving(true);
     try {
-      await onLeave(eventToLeave._id || eventToLeave.id);
+      await onLeave(eventToLeave._id);
       setLeaveSuccess(true);
     } catch {
     } finally {
@@ -61,7 +61,7 @@ function UpcomingEvents({ events = [], loading = false, currentUser, onLeave }) 
         ) : (
           <div className='upcoming-events-list'>
             {events.map((event) => (
-              <div key={event._id || event.id} className='upcoming-event-item'>
+              <div key={event._id} className='upcoming-event-item'>
                 <div className='event-icon-badge'>
                   <i className='fi fi-sr-calendar'></i>
                 </div>

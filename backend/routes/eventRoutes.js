@@ -120,7 +120,7 @@ router.post('/:id/leave', protect, async (req, res) => {
     }
 
     event.volunteersList = event.volunteersList.filter((v) => {
-      const rosterId = v.userId?._id || v.userId;
+      const rosterId = v.userId?._id;
       const matchesId = rosterId && rosterId.toString() === req.user._id.toString();
       const matchesEmail = v.email && v.email.toLowerCase() === req.user.email.toLowerCase();
       return !matchesId && !matchesEmail;

@@ -9,7 +9,7 @@
   --color-text-main: #0f172a;
   --color-text-body: #475569;
   --color-text-muted: #64748b;
-  --color-border: #e2e8f0;
+  --color-border-adminevent: #e2e8f0;
   --color-bg-subtle: #f8fafc;
   --color-bg-card: #ffffff;
 }
@@ -25,7 +25,7 @@
   background-color: var(--color-bg-card);
   border-radius: 28px;
   padding: 32px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-adminevent);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -88,7 +88,7 @@
   display: flex;
   gap: 12px;
   padding: 12px 14px;
-  border: 1.5px solid var(--color-border);
+  border: 1.5px solid var(--color-border-adminevent);
   border-radius: 16px;
   background-color: var(--color-bg-card);
   cursor: pointer;
@@ -260,7 +260,7 @@
   padding: 6px 14px;
   border-radius: 9999px;
   background-color: #f1f5f9;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-adminevent);
   font-size: 12.5px;
   font-weight: 600;
   color: #334155;
@@ -288,7 +288,7 @@
 
 .roster-section {
   margin-top: auto;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-adminevent);
   border-radius: 16px;
   overflow: hidden;
   background: var(--color-bg-card);
@@ -304,7 +304,7 @@
 .roster-table th {
   padding: 10px 16px;
   background-color: var(--color-bg-subtle);
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border-adminevent);
   font-size: 11.5px;
   font-weight: 700;
   text-transform: uppercase;

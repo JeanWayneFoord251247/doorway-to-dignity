@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import '../css/calendar.css';
 
 function VolunteerCalendar({ events = [] }) {
-  const [activeDate, setActiveDate] = useState(() => {
-    return new Date();
-  });
+  const [activeDate, setActiveDate] = useState(() => new Date());
 
   const months = [
     'January',
@@ -28,7 +27,7 @@ function VolunteerCalendar({ events = [] }) {
   const currentMonth = months[currentMonthIndex];
 
   const currentUser = JSON.parse(localStorage.getItem('user') || '{}');
-  const currentUserId = currentUser._id;
+  const currentUserId = currentUser._id || currentUser.id;
   const currentUserEmail = currentUser.email;
   const today = new Date();
 
@@ -204,7 +203,7 @@ function VolunteerCalendar({ events = [] }) {
               onClick={handlePrevMonth}
               aria-label='Previous month'
             >
-              ‹
+              <ChevronLeft size={16} />
             </button>
             <div className='cal-month-display'>
               <span className='cal-month-name'>{currentMonth}</span>
@@ -216,7 +215,7 @@ function VolunteerCalendar({ events = [] }) {
               onClick={handleNextMonth}
               aria-label='Next month'
             >
-              ›
+              <ChevronRight size={16} />
             </button>
           </div>
 

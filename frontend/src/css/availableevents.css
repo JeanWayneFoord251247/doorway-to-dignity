@@ -7,7 +7,7 @@
   --color-text-main: #0f172a;
   --color-text-body: #475569;
   --color-text-muted: #64748b;
-  --color-border: #e2e8f0;
+  --color-border-available: #e2e8f0;
   --color-bg-subtle: #f8fafc;
   --color-bg-card: #ffffff;
 }
@@ -92,7 +92,7 @@
   align-items: center;
   gap: 12px;
   padding: 12px 14px;
-  border: 1.5px solid var(--color-border);
+  border: 1.5px solid var(--color-border-available);
   border-radius: 16px;
   background-color: var(--color-bg-card);
   cursor: pointer;
@@ -287,7 +287,7 @@
   padding: 6px 14px;
   border-radius: 9999px;
   background-color: #f1f5f9;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-available);
   font-size: 12.5px;
   font-weight: 600;
   color: #334155;

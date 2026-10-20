@@ -1,5 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --font-main: 'Poppins', sans-serif;
+  --color-primary: #00adb5;
+  --color-text-main: #111827;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-bg-card: #ffffff;
+  --color-bg-subtle: #f8fafc;
+}
 
 .volunteer-page {
   position: relative;
@@ -8,6 +17,7 @@
   box-sizing: border-box;
   padding-top: 25px;
   z-index: 1;
+  font-family: var(--font-main);
 }
 
 .volunteer-container {
@@ -18,16 +28,16 @@
 }
 
 .dashboard-section-title {
-  font-family: 'Poppins', sans-serif;
-  font-size: 26px;
+  font-family: var(--font-main);
+  font-size: 24px;
   font-weight: 800;
-  color: #111827;
+  color: var(--color-text-main);
   margin: 0 0 16px 0;
 }
 
 .volunteer-top-grid {
   display: grid;
-  grid-template-columns: 0.95fr 1.55fr;
+  grid-template-columns: 450px 1fr;
   gap: 28px;
   align-items: stretch;
 }

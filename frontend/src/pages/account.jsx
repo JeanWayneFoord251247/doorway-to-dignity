@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { User, X, Eye, EyeOff, Calendar, Plus } from 'lucide-react';
 import AnimatedBackground from '../components/animatedbackground.jsx';
 import Grainient from '../components/gradient.jsx';
 import ViewEventModal from '../components/vieweventmodal.jsx';
@@ -206,7 +207,7 @@ function Account() {
             onClick={handleCloseToDashboard}
             aria-label='Return to dashboard'
           >
-            <i className='fi fi-sr-cross-small'></i>
+            <X size={18} />
           </button>
           <h1 className='account-main-title'>Profile</h1>
 
@@ -219,7 +220,7 @@ function Account() {
                   <img src={userData.avatar} alt='Profile' className='profile-avatar-img' />
                 ) : (
                   <div className='profile-avatar-default'>
-                    <i className='fi fi-sr-user'></i>
+                    <User size={32} />
                   </div>
                 )}
 
@@ -227,7 +228,7 @@ function Account() {
                   <span className='profile-picture-label'>Profile Picture</span>
                   <div className='profile-btn-group'>
                     <label className='btn-upload-img'>
-                      + Upload Image
+                      <Plus size={14} /> Upload Image
                       <input type='file' accept='image/*' onChange={handleImageUpload} hidden />
                     </label>
                     <button type='button' className='btn-remove-img' onClick={handleRemoveImage}>
@@ -287,7 +288,7 @@ function Account() {
                       onClick={() => setShowPassword((prev) => !prev)}
                       aria-label='Toggle password visibility'
                     >
-                      <i className={`fi ${showPassword ? 'fi-sr-eye-crossed' : 'fi-sr-eye'}`}></i>
+                      {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                   </div>
                 </div>
@@ -379,7 +380,7 @@ function Account() {
                           <img src={evt.image} alt={evt.title} className='event-thumb' />
                         ) : (
                           <div className='event-thumb-fallback'>
-                            <i className='fi fi-sr-calendar'></i>
+                            <Calendar size={20} />
                           </div>
                         )}
                         <div className='event-details'>

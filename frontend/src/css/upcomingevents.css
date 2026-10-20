@@ -1,27 +1,50 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --font-main: 'Poppins', sans-serif;
+  --color-primary: #00adb5;
+  --color-primary-hover: #008f96;
+  --color-text-main: #0f172a;
+  --color-text-muted: #64748b;
+  --color-border: #e2e8f0;
+  --color-bg-card: #ffffff;
+  --color-bg-subtle: #f8fafc;
+  --color-role-text: #0e7490;
+  --color-danger-border: #fca5a5;
+  --color-danger-text: #ef4444;
+  --color-danger-hover: #fee2e2;
+}
 
 .upcoming-section-wrapper {
   display: flex;
   flex-direction: column;
   height: 100%;
-  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  font-family: var(--font-main);
+  box-sizing: border-box;
 }
 
 .upcoming-events-card {
   flex: 1;
-  background-color: #ffffff;
+  width: 100%;
+  background-color: var(--color-bg-card);
   border-radius: 28px;
-  padding: 24px 20px;
+  padding: 24px 28px;
   box-shadow: 0 14px 40px rgba(15, 23, 42, 0.06);
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  border: 1.5px solid transparent;
+  box-sizing: border-box;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              border-color 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: transform, box-shadow, border-color;
+  backface-visibility: hidden;
 }
 
 .upcoming-events-card:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px);
   border-color: #00bcd4;
   box-shadow: 0 20px 48px rgba(0, 188, 212, 0.12);
 }
@@ -34,6 +57,8 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .upcoming-events-list::-webkit-scrollbar {
@@ -56,18 +81,21 @@
 .upcoming-event-item {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 14px;
-  border: 1.5px solid #e2e8f0;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  border: 1.5px solid var(--color-border);
   border-radius: 18px;
-  background-color: #ffffff;
+  background-color: var(--color-bg-card);
   cursor: pointer;
+  box-sizing: border-box;
+  width: 100%;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .upcoming-event-item:hover {
   border-color: #00bcd4;
-  background-color: #f8fafc;
+  background-color: var(--color-bg-subtle);
   transform: translateY(-2px);
   box-shadow: 0 4px 14px rgba(0, 188, 212, 0.12);
 }
@@ -102,7 +130,7 @@
 .event-title {
   font-size: 14px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--color-text-main);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -112,7 +140,7 @@
 
 .event-meta {
   font-size: 11.5px;
-  color: #64748b;
+  color: var(--color-text-muted);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -122,7 +150,7 @@
 .event-role {
   font-size: 11.5px;
   font-weight: 600;
-  color: #0e7490;
+  color: var(--color-role-text);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
@@ -138,12 +166,12 @@
 
 .btn-event-view {
   height: 32px;
-  padding: 0 14px;
+  padding: 0 16px;
   border-radius: 9999px;
   border: 1.5px solid #00a8cc;
   background-color: transparent;
   color: #00a8cc;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-main);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -152,6 +180,7 @@
   justify-content: center;
   transition: all 0.15s ease;
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .btn-event-view:hover {
@@ -163,12 +192,12 @@
 
 .btn-event-leave {
   height: 32px;
-  padding: 0 14px;
+  padding: 0 16px;
   border-radius: 9999px;
-  border: 1.5px solid #fca5a5;
+  border: 1.5px solid var(--color-danger-border);
   background-color: transparent;
-  color: #ef4444;
-  font-family: 'Poppins', sans-serif;
+  color: var(--color-danger-text);
+  font-family: var(--font-main);
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
@@ -177,18 +206,19 @@
   justify-content: center;
   transition: all 0.15s ease;
   white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .btn-event-leave:hover {
-  background-color: #fee2e2;
-  border-color: #ef4444;
+  background-color: var(--color-danger-hover);
+  border-color: var(--color-danger-text);
   transform: translateY(-1px);
 }
 
 .btn-card-inline-edit {
   background: transparent;
-  border: 1px solid #00adb5;
-  color: #00adb5;
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
   border-radius: 8px;
   padding: 3px 10px;
   font-size: 11px;
@@ -197,16 +227,19 @@
   margin-top: 4px;
   width: fit-content;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .btn-card-inline-edit:hover {
-  background: #00adb5;
+  background: var(--color-primary);
   color: #ffffff;
 }
 
 .upcoming-status-text {
   padding: 32px 16px;
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 13px;
   margin: 0;
   text-align: center;
@@ -216,10 +249,35 @@
 .upcoming-empty-state {
   padding: 40px 20px;
   text-align: center;
-  background: #f8fafc;
+  background: var(--color-bg-subtle);
   border: 1px dashed #cbd5e1;
   border-radius: 20px;
-  color: #64748b;
+  color: var(--color-text-muted);
   font-size: 13px;
   font-weight: 500;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .upcoming-events-card {
+    padding: 20px 16px;
+    border-radius: 20px;
+  }
+
+  .upcoming-event-item {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .event-actions-group {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn-event-view,
+  .btn-event-leave {
+    height: 28px;
+    padding: 0 12px;
+    font-size: 11px;
+  }
 }

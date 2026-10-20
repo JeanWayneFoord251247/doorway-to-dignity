@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Plus, Pencil, Trash2, ChevronDown } from 'lucide-react';
 import Navbar from '../components/navbar.jsx';
 import AnimatedBackground from '../components/animatedbackground.jsx';
 import Grainient from '../components/gradient.jsx';
@@ -56,7 +57,7 @@ function FAQ() {
 
   const fetchFaqs = async () => {
     try {
-      const res = fetch(`${API_BASE}/api/faqs`);
+      const res = await fetch(`${API_BASE}/api/faqs`);
       if (!res.ok) throw new Error();
       const data = await res.json();
       setFaqs(data.length > 0 ? data : defaultFaqs);
@@ -69,14 +70,15 @@ function FAQ() {
     fetchFaqs();
   }, []);
 
-  const toggleAccordion = (id) => {
+  const toggleAccordion = (id, faqQuestion) => {
+    const isOpening = openId !== id;
     setOpenId((prev) => (prev === id ? null : id));
 
     if (isOpening && typeof window.gtag === 'function') {
       window.gtag('event', 'select_content', {
         content_type: 'faq',
-        item_id: String(key),
-        content_name: faq.question,
+        item_id: String(id),
+        content_name: faqQuestion,
       });
     }
   };
@@ -179,7 +181,7 @@ function FAQ() {
           <h1 className='faq-main-title'>Frequently asked questions about volunteering</h1>
           {isAdmin && (
             <button type='button' className='btn-add-faq' onClick={handleOpenAdd}>
-              <i className='fi fi-sr-plus'></i> Add Question
+              <Plus size={16} /> Add Question
             </button>
           )}
         </div>
@@ -191,7 +193,10 @@ function FAQ() {
 
             return (
               <div key={key} className={`faq-row-item ${isOpen ? 'open' : ''}`}>
-                <div className='faq-question-bar' onClick={() => toggleAccordion(key)}>
+                <div
+                  className='faq-question-bar'
+                  onClick={() => toggleAccordion(key, faq.question)}
+                >
                   <h3 className='faq-question-text'>{faq.question}</h3>
 
                   <div className='faq-actions-group'>
@@ -201,28 +206,22 @@ function FAQ() {
                           type='button'
                           className='faq-control-btn edit'
                           onClick={(e) => handleOpenEdit(faq, e)}
+                          aria-label='Edit question'
                         >
-                          <i className='fi fi-sr-pencil'></i>
+                          <Pencil size={14} />
                         </button>
                         <button
                           type='button'
                           className='faq-control-btn delete'
                           onClick={(e) => handleDelete(key, e)}
+                          aria-label='Delete question'
                         >
-                          <i className='fi fi-sr-trash'></i>
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     )}
                     <span className={`faq-chevron-arrow ${isOpen ? 'rotated' : ''}`}>
-                      <svg width='24' height='24' viewBox='0 0 24 24' fill='none'>
-                        <path
-                          d='M6 9L12 15L18 9'
-                          stroke='#00838f'
-                          strokeWidth='3.5'
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                        />
-                      </svg>
+                      <ChevronDown size={22} color='#00838f' />
                     </span>
                   </div>
                 </div>

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Image as ImageIcon, Plus, Minus } from 'lucide-react';
 import Navbar from '../components/navbar.jsx';
 import AnimatedBackground from '../components/animatedbackground.jsx';
 import Grainient from '../components/gradient.jsx';
 import '../css/eventeditor.css';
-
 
 function EventEditor({ isEdit = false }) {
   const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
@@ -134,10 +134,7 @@ function EventEditor({ isEdit = false }) {
     };
 
     try {
-      const endpoint =
-        isEdit && id
-          ? `${API_BASE}/api/events/${id}`
-          : `${API_BASE}/api/events`;
+      const endpoint = isEdit && id ? `${API_BASE}/api/events/${id}` : `${API_BASE}/api/events`;
 
       const method = isEdit && id ? 'PUT' : 'POST';
 
@@ -350,7 +347,7 @@ function EventEditor({ isEdit = false }) {
                             onClick={() => handleRemoveRole(idx)}
                             aria-label={`Remove role ${role}`}
                           >
-                            –
+                            <Minus size={14} />
                           </button>
                         </div>
                       ))}
@@ -371,7 +368,7 @@ function EventEditor({ isEdit = false }) {
                         }}
                       />
                       <button type='button' className='btn-role-add' onClick={handleAddRole}>
-                        + Add Role
+                        <Plus size={14} /> Add Role
                       </button>
                     </div>
                   </div>
@@ -393,7 +390,7 @@ function EventEditor({ isEdit = false }) {
                   ) : (
                     <>
                       <div className='banner-icon-area'>
-                        <i className='fi fi-sr-picture'></i>
+                        <ImageIcon size={32} />
                       </div>
                       <div className='banner-text-area'>
                         <span className='banner-upload-title'>Click to upload banner image</span>

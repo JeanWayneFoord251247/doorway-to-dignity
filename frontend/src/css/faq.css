@@ -1,12 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
+:root {
+  --font-main: 'Poppins', sans-serif;
+  --color-primary: #00838f;
+  --color-primary-hover: #006064;
+  --color-text-main: #111827;
+  --color-text-body: #475569;
+  --color-text-subtle: #374151;
+  --color-border-faq: #111827;
+  --color-border-faq-input: #d1d5db;
+  --color-bg-card: #ffffff;
+  --color-bg-subtle: #f8fafc;
+  --color-edit-bg: #e0f7fa;
+  --color-edit-hover: #b2ebf2;
+  --color-delete-bg: #fee2e2;
+  --color-delete-hover: #fecaca;
+  --color-delete-text: #ef4444;
+}
+
 .faq-page-wrapper {
   position: relative;
   z-index: 1;
   max-width: 1000px;
   margin: 0 auto;
   padding: 40px 24px 80px;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-main);
+  box-sizing: border-box;
 }
 
 .faq-header-row {
@@ -20,44 +39,46 @@
 .faq-main-title {
   font-size: 32px;
   font-weight: 800;
-  color: #111827;
+  color: var(--color-text-main);
   line-height: 1.25;
   margin: 0;
 }
 
 .btn-add-faq {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 10px 22px;
   border-radius: 20px;
   border: none;
-  background-color: #00838f;
+  background-color: var(--color-primary);
   color: #ffffff;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
   box-shadow: 0 4px 12px rgba(0, 131, 143, 0.2);
+  box-sizing: border-box;
 }
 
 .btn-add-faq:hover {
-  background-color: #006064;
+  background-color: var(--color-primary-hover);
   transform: translateY(-2px);
 }
 
 .faq-card-container {
-  background-color: #ffffff;
+  background-color: var(--color-bg-card);
   border-radius: 36px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   border: 1.5px solid #ffffff;
+  box-sizing: border-box;
 }
 
 .faq-row-item {
-  border-bottom: 1.5px solid #111827;
+  border-bottom: 1.5px solid var(--color-border-faq);
 }
 
 .faq-row-item:last-child {
@@ -72,16 +93,17 @@
   cursor: pointer;
   user-select: none;
   transition: background-color 0.2s ease;
+  box-sizing: border-box;
 }
 
 .faq-question-bar:hover {
-  background-color: #f8fafc;
+  background-color: var(--color-bg-subtle);
 }
 
 .faq-question-text {
   font-size: 18px;
   font-weight: 700;
-  color: #111827;
+  color: var(--color-text-main);
   margin: 0;
   padding-right: 20px;
 }
@@ -103,34 +125,34 @@
   height: 32px;
   border-radius: 50%;
   border: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 13px;
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 
 .faq-control-btn.edit {
-  background-color: #e0f7fa;
-  color: #00838f;
+  background-color: var(--color-edit-bg);
+  color: var(--color-primary);
 }
 
 .faq-control-btn.edit:hover {
-  background-color: #b2ebf2;
+  background-color: var(--color-edit-hover);
 }
 
 .faq-control-btn.delete {
-  background-color: #fee2e2;
-  color: #ef4444;
+  background-color: var(--color-delete-bg);
+  color: var(--color-delete-text);
 }
 
 .faq-control-btn.delete:hover {
-  background-color: #fecaca;
+  background-color: var(--color-delete-hover);
 }
 
 .faq-chevron-arrow {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: transform 0.25s ease;
@@ -143,12 +165,13 @@
 .faq-answer-panel {
   padding: 0 32px 24px 32px;
   animation: fadeIn 0.2s ease-in-out;
+  box-sizing: border-box;
 }
 
 .faq-answer-text {
   font-size: 15px;
   line-height: 1.6;
-  color: #475569;
+  color: var(--color-text-body);
   margin: 0;
 }
 
@@ -173,29 +196,32 @@
   justify-content: center;
   z-index: 1000;
   padding: 20px;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-main);
+  box-sizing: border-box;
 }
 
 .faq-modal-card {
   width: 100%;
   max-width: 520px;
-  background-color: #ffffff;
+  background-color: var(--color-bg-card);
   border-radius: 28px;
   padding: 32px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
 }
 
 .faq-modal-title {
   font-size: 22px;
   font-weight: 700;
-  color: #111827;
-  margin: 0 0 20px;
+  color: var(--color-text-main);
+  margin: 0 0 20px 0;
 }
 
 .faq-modal-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  box-sizing: border-box;
 }
 
 .faq-input-group {
@@ -207,23 +233,25 @@
 .faq-input-label {
   font-size: 12px;
   font-weight: 600;
-  color: #374151;
+  color: var(--color-text-subtle);
 }
 
 .faq-text-input,
 .faq-text-area {
   padding: 12px 16px;
   border-radius: 14px;
-  border: 1.5px solid #d1d5db;
-  font-family: 'Poppins', sans-serif;
+  border: 1.5px solid var(--color-border-faq-input);
+  font-family: var(--font-main);
   font-size: 14px;
   outline: none;
   transition: border-color 0.2s ease;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .faq-text-input:focus,
 .faq-text-area:focus {
-  border-color: #00838f;
+  border-color: var(--color-primary);
 }
 
 .faq-modal-btn-row {
@@ -238,28 +266,30 @@
   border-radius: 16px;
   border: 1.5px solid #cbd5e1;
   background-color: transparent;
-  color: #475569;
-  font-family: 'Poppins', sans-serif;
+  color: var(--color-text-body);
+  font-family: var(--font-main);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  box-sizing: border-box;
 }
 
 .btn-faq-save {
   padding: 10px 22px;
   border-radius: 16px;
   border: none;
-  background-color: #00838f;
+  background-color: var(--color-primary);
   color: #ffffff;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
+  box-sizing: border-box;
 }
 
 .btn-faq-save:hover {
-  background-color: #006064;
+  background-color: var(--color-primary-hover);
 }
 
 @media (max-width: 600px) {
@@ -267,12 +297,15 @@
     flex-direction: column;
     align-items: flex-start;
   }
+
   .faq-main-title {
     font-size: 24px;
   }
+
   .faq-question-bar {
     padding: 18px 20px;
   }
+
   .faq-question-text {
     font-size: 16px;
   }

@@ -19,7 +19,7 @@ function ViewEventModal({ isOpen, event, userRole, onClose, onLeave }) {
         <img
           src={
             event.image ||
-            'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'
+            '../assets/img/placeholder.png'
           }
           alt={event.title}
           className='modal-banner-img'

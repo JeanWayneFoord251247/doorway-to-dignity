@@ -14,6 +14,7 @@ const app = express();
 const allowedOrigins = [
   'https://doorwaytodignityow251247.co.za',
   'https://www.doorwaytodignityow251247.co.za',
+  'https://doorway-to-dignity-1.onrender.com',
   'http://localhost:5173',
   'http://localhost:3000',
 ];
@@ -60,12 +61,14 @@ app.get('/sitemap.xml', async (req, res) => {
       }),
     ];
 
-    res.type('application/xml').send(
-      '<?xml version="1.0" encoding="UTF-8"?>' +
-      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
-      urls.join('') +
-      '</urlset>'
-    );
+    res
+      .type('application/xml')
+      .send(
+        '<?xml version="1.0" encoding="UTF-8"?>' +
+          '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' +
+          urls.join('') +
+          '</urlset>'
+      );
   } catch (error) {
     console.error('Sitemap generation error:', error);
     res.status(500).end();

@@ -1,259 +1,195 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import DeleteModal from './deletionmodel.jsx';
+import { Calendar, Clock, MapPin, Edit, Trash2, Plus } from 'lucide-react';
+import DeleteModal from './DeleteModal.jsx';
+import { useAdminEvents } from '../hooks/useadminevents.jsx';
 import '../css/admineventsmanager.css';
 
+const DEFAULT_IMAGE = './assets/img/placeholder.png';
+
 function AdminEventsManager() {
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
   const navigate = useNavigate();
-  const [events, setEvents] = useState([]);
-  const [selectedEventId, setSelectedEventId] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const fetchEvents = async () => {
-    try {
-      const res = await fetch(`${API_BASE}/api/events`);
-      if (!res.ok) throw new Error('Failed to fetch events');
-      const data = await res.json();
-      setEvents(data);
-      if (data.length > 0) {
-        setSelectedEventId((prev) => {
-          const stillExists = data.some((e) => (e._id || e.id) === prev);
-          return stillExists ? prev : data[0]._id || data[0].id;
-        });
-      } else {
-        setSelectedEventId(null);
-      }
-    } catch (err) {
-      console.error(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchEvents();
-  }, []);
-
-  const selectedEvent =
-    events.find((e) => (e._id || e.id) === selectedEventId) || events[0] || null;
-
-  const handleEditClick = (eventId, e) => {
-    if (e) e.stopPropagation();
-    navigate(`/admin/events/edit/${eventId}`);
-  };
-
-  const handleDeleteTrigger = () => {
-    if (selectedEvent) {
-      setIsDeleteModalOpen(true);
-    }
-  };
-
-  const handleConfirmDelete = async () => {
-    if (!selectedEvent) return;
-
-    setIsDeleting(true);
-    const token = localStorage.getItem('token');
-    try {
-      const res = await fetch(`${API_BASE}/api/events/${selectedEvent._id || selectedEvent.id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.message || 'Failed to delete event');
-      }
-
-      setIsDeleteModalOpen(false);
-      fetchEvents();
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      setIsDeleting(false);
-    }
-  };
+  const {
+    events,
+    selectedEvent,
+    setSelectedEventId,
+    loading,
+    isDeleteOpen,
+    setIsDeleteOpen,
+    isDeleting,
+    deleteSelectedEvent,
+  } = useAdminEvents();
 
   return (
-    <>
-      <section className='admin-events-section'>
-        <div className='admin-events-viewer'>
-          <h2 className='admin-card-inner-title dark'>Upcoming Events</h2>
+    <section className='admin-events-section'>
+      <div className='admin-events-viewer'>
+        <h2 className='admin-card-title'>Upcoming Events</h2>
 
-          {loading ? (
-            <p className='admin-loading-text'>Loading events...</p>
-          ) : events.length === 0 ? (
-            <div className='admin-empty-state'>
-              <p>No events found.</p>
-              <button
-                type='button'
-                className='btn-admin-edit'
-                onClick={() => navigate('/admin/events/create')}
-              >
-                Create New Event
-              </button>
-            </div>
-          ) : (
-            <div className='admin-viewer-body'>
-              <div className='admin-events-list'>
-                {events.map((event) => {
-                  const eventKey = event._id || event.id;
-                  const isSelected =
-                    selectedEvent && (selectedEvent._id || selectedEvent.id) === eventKey;
-                  return (
-                    <div
-                      key={eventKey}
-                      className={`admin-list-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => setSelectedEventId(eventKey)}
-                    >
-                      <img
-                        src={
-                          event.image ||
-                          'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'
-                        }
-                        alt={event.title}
-                        className='list-card-thumb'
-                      />
-                      <div className='list-card-info'>
-                        <h4 className='list-card-title'>{event.title}</h4>
-                        <p className='list-card-sub'>{event.location}</p>
-                        <p className='list-card-sub'>
-                          {event.date} {event.time ? `• ${event.time}` : ''}
-                        </p>
-                        <p className='list-card-sub'>
-                          Volunteers -{' '}
-                          {event.volunteersCurrent ||
-                            (event.volunteersList ? event.volunteersList.length : 0)}
-                          /{event.volunteersMax || 20}
-                        </p>
-                        <button
-                          type='button'
-                          className='btn-card-inline-edit'
-                          onClick={(e) => handleEditClick(eventKey, e)}
-                        >
-                          Edit
-                        </button>
-                      </div>
+        {loading ? (
+          <p className='loading-state'>Loading events...</p>
+        ) : events.length === 0 ? (
+          <div className='empty-state'>
+            <p>No events found.</p>
+            <button
+              type='button'
+              className='btn-primary'
+              onClick={() => navigate('/admin/events/create')}
+            >
+              <Plus size={16} /> Create New Event
+            </button>
+          </div>
+        ) : (
+          <div className='admin-events-grid'>
+            <aside className='events-list'>
+              {events.map((event) => {
+                const isSelected = selectedEvent?._id === event._id;
+                const volunteerCount = event.volunteersList?.length || 0;
+
+                return (
+                  <div
+                    key={event._id}
+                    className={`event-card ${isSelected ? 'active' : ''}`}
+                    onClick={() => setSelectedEventId(event._id)}
+                  >
+                    <img
+                      src={event.image || DEFAULT_IMAGE}
+                      alt={event.title}
+                      className='card-thumb'
+                    />
+                    <div className='card-details'>
+                      <h4>{event.title}</h4>
+                      <p>{event.location}</p>
+                      <p>
+                        {event.date} {event.time ? `• ${event.time}` : ''}
+                      </p>
+                      <p>
+                        Volunteers - {volunteerCount}/{event.volunteersMax || 20}
+                      </p>
+                      <button
+                        type='button'
+                        className='btn-link'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/admin/events/edit/${event._id}`);
+                        }}
+                      >
+                        <Edit size={12} /> Edit
+                      </button>
                     </div>
-                  );
-                })}
-              </div>
+                  </div>
+                );
+              })}
+            </aside>
 
-              {selectedEvent && (
-                <div className='admin-detail-pane'>
-                  <div className='admin-detail-content'>
-                    <h3 className='detail-main-title'>{selectedEvent.title}</h3>
-                    <p className='detail-description'>{selectedEvent.description}</p>
+            {selectedEvent && (
+              <main className='event-detail'>
+                <div className='detail-body'>
+                  <h3>{selectedEvent.title}</h3>
+                  <p className='description'>{selectedEvent.description}</p>
 
-                    <div className='admin-event-quick-info'>
-                      <p>
-                        <i className='fi fi-sr-calendar'></i> {selectedEvent.date}
-                      </p>
-                      <p>
-                        <i className='fi fi-sr-clock'></i> {selectedEvent.time}
-                      </p>
-                      <p>
-                        <i className='fi fi-sr-marker'></i> {selectedEvent.location}
-                      </p>
-                    </div>
+                  <div className='quick-info'>
+                    <span>
+                      <Calendar size={14} /> {selectedEvent.date}
+                    </span>
+                    <span>
+                      <Clock size={14} /> {selectedEvent.time}
+                    </span>
+                    <span>
+                      <MapPin size={14} /> {selectedEvent.location}
+                    </span>
+                  </div>
 
-                    <div className='detail-meta-row'>
-                      <div className='meta-badge-group'>
-                        <span className='meta-label'>Roles</span>
-                        <div className='meta-pill pill-wide'>
-                          {selectedEvent.rolesNeeded && selectedEvent.rolesNeeded.length > 0
-                            ? selectedEvent.rolesNeeded.join(', ')
-                            : selectedEvent.selectedRole || 'General Volunteer'}
-                        </div>
-                      </div>
-
-                      <div className='meta-badge-group'>
-                        <span className='meta-label'>Volunteers</span>
-                        <div className='meta-pill'>
-                          {selectedEvent.volunteersCurrent ||
-                            (selectedEvent.volunteersList
-                              ? selectedEvent.volunteersList.length
-                              : 0)}
-                          /{selectedEvent.volunteersMax || 20}
-                        </div>
-                      </div>
-
-                      <div className='meta-badge-group'>
-                        <span className='meta-label'>Location</span>
-                        <div className='meta-pill pill-wide'>{selectedEvent.location}</div>
+                  <div className='meta-grid'>
+                    <div className='meta-group'>
+                      <label>Roles</label>
+                      <div className='meta-pill pill-wide'>
+                        {selectedEvent.rolesNeeded?.length > 0
+                          ? selectedEvent.rolesNeeded.join(', ')
+                          : selectedEvent.selectedRole || 'General Volunteer'}
                       </div>
                     </div>
 
-                    <div className='admin-roster-table'>
-                      <div className='roster-header'>
-                        <span>Role</span>
-                        <span>Volunteer Name</span>
+                    <div className='meta-group'>
+                      <label>Volunteers</label>
+                      <div className='meta-pill'>
+                        {selectedEvent.volunteersList?.length || 0}/
+                        {selectedEvent.volunteersMax || 20}
                       </div>
-                      <div className='roster-body'>
-                        {selectedEvent.volunteersList && selectedEvent.volunteersList.length > 0 ? (
-                          selectedEvent.volunteersList.map((vol, idx) => (
-                            <div key={idx} className='roster-row'>
-                              <span className='roster-cell'>{vol.role}</span>
-                              <span className='roster-cell'>{vol.name}</span>
-                            </div>
-                          ))
-                        ) : (
-                          <div className='roster-row'>
-                            <span className='roster-cell roster-empty-cell'>
-                              No volunteers signed up yet.
-                            </span>
-                            <span className='roster-cell'></span>
-                          </div>
-                        )}
-                      </div>
+                    </div>
+
+                    <div className='meta-group'>
+                      <label>Location</label>
+                      <div className='meta-pill pill-wide'>{selectedEvent.location}</div>
                     </div>
                   </div>
 
-                  <div className='admin-detail-side'>
-                    <img
-                      src={
-                        selectedEvent.image ||
-                        'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'
-                      }
-                      alt={selectedEvent.title}
-                      className='detail-large-img'
-                    />
-                    <div className='admin-detail-btn-group'>
-                      <button
-                        type='button'
-                        className='btn-admin-edit'
-                        onClick={() => handleEditClick(selectedEvent._id || selectedEvent.id)}
-                      >
-                        Edit Event
-                      </button>
-                      <button
-                        type='button'
-                        className='btn-admin-delete'
-                        onClick={handleDeleteTrigger}
-                      >
-                        Delete Event
-                      </button>
+                  <div className='roster-section'>
+                    <div className='roster-scroll-wrapper'>
+                      <table className='roster-table'>
+                        <thead>
+                          <tr>
+                            <th>Role</th>
+                            <th>Volunteer Name</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {selectedEvent.volunteersList?.length > 0 ? (
+                            selectedEvent.volunteersList.map((vol, idx) => (
+                              <tr key={idx}>
+                                <td>{vol.role}</td>
+                                <td>{vol.name}</td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan='2' className='empty-roster'>
+                                No volunteers signed up yet.
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
-              )}
-            </div>
-          )}
-        </div>
-      </section>
 
-      <DeleteModal
-        isOpen={isDeleteModalOpen}
-        eventTitle={selectedEvent?.title || 'this event'}
-        onConfirm={handleConfirmDelete}
-        onCancel={() => setIsDeleteModalOpen(false)}
-        isDeleting={isDeleting}
-      />
-    </>
+                <div className='detail-media'>
+                  <img
+                    src={selectedEvent.image || DEFAULT_IMAGE}
+                    alt={selectedEvent.title}
+                    className='detail-large-img'
+                  />
+                  <div className='action-buttons'>
+                    <button
+                      type='button'
+                      className='btn-primary'
+                      onClick={() => navigate(`/admin/events/edit/${selectedEvent._id}`)}
+                    >
+                      <Edit size={16} /> Edit Event
+                    </button>
+                    <button
+                      type='button'
+                      className='btn-danger'
+                      onClick={() => setIsDeleteOpen(true)}
+                    >
+                      <Trash2 size={16} /> Delete Event
+                    </button>
+                  </div>
+                </div>
+              </main>
+            )}
+          </div>
+        )}
+
+        <DeleteModal
+          isOpen={isDeleteOpen}
+          eventTitle={selectedEvent?.title || 'this event'}
+          onConfirm={deleteSelectedEvent}
+          onCancel={() => setIsDeleteOpen(false)}
+          isDeleting={isDeleting}
+        />
+      </div>
+    </section>
   );
 }
 

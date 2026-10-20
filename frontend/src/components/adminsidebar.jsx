@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { User, Mail, Calendar, ChevronRight, Plus, Users, LogOut } from 'lucide-react';
-import LogoutModal from './LogoutModal.jsx';
+import LogoutModal from './logoutmodal.jsx';
 import '../css/adminsidebar.css';
 
 function AdminSidebar({ user }) {

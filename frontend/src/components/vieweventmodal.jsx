@@ -17,10 +17,7 @@ function ViewEventModal({ isOpen, event, userRole, onClose, onLeave }) {
         </button>
 
         <img
-          src={
-            event.image ||
-            '../assets/img/placeholder.png'
-          }
+          src={event.image || '../assets/img/placeholder.png'}
           alt={event.title}
           className='modal-banner-img'
         />

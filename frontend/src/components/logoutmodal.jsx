@@ -12,9 +12,7 @@ function LogoutModal({ isOpen, onConfirm, onCancel }) {
         </div>
 
         <h2 className='logout-modal-title'>Log Out</h2>
-        <p className='logout-modal-message'>
-          Are you sure you want to log out of your account?
-        </p>
+        <p className='logout-modal-message'>Are you sure you want to log out of your account?</p>
 
         <div className='logout-modal-actions'>
           <button type='button' className='btn-logout-cancel' onClick={onCancel}>

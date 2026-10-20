@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Edit, UserCheck } from 'lucide-react';
 import SignUpModal from './signupmodal.jsx';
 import '../css/availableevents.css';
+
+const DEFAULT_IMAGE = './assets/img/placeholder.png';
 
 function AvailableEvents({ events = [], loading = false, onSignUp }) {
   const navigate = useNavigate();
@@ -39,7 +42,6 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
     const eventKey = event._id || event.id;
     setSelectedEventId(eventKey);
 
-    // GA4: Track selecting/viewing an event card from the list
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'select_content', {
         content_type: 'event',
@@ -53,7 +55,6 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
     setIsSuccess(false);
     setIsModalOpen(true);
 
-    // GA4: Track user intent to sign up for an event
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'select_item', {
         item_list_id: 'available_events',
@@ -110,7 +111,7 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
             </div>
           ) : (
             <div className='available-viewer-body'>
-              <div className='available-events-list'>
+              <aside className='available-events-list'>
                 {events.map((event) => {
                   const eventKey = event._id || event.id;
                   const isSelected =
@@ -123,10 +124,7 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
                       onClick={() => handleSelectEvent(event)}
                     >
                       <img
-                        src={
-                          event.image ||
-                          'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=400&q=80'
-                        }
+                        src={event.image || DEFAULT_IMAGE}
                         alt={event.title}
                         className='list-card-thumb'
                       />
@@ -145,17 +143,17 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
                             className='btn-card-inline-edit'
                             onClick={(e) => handleEditClick(eventKey, e)}
                           >
-                            Edit
+                            <Edit size={12} /> Edit
                           </button>
                         )}
                       </div>
                     </div>
                   );
                 })}
-              </div>
+              </aside>
 
               {activeEvent && (
-                <div className='available-detail-pane'>
+                <main className='available-detail-pane'>
                   <div className='detail-text-col'>
                     <h3 className='detail-main-title'>{activeEvent.title}</h3>
                     <p className='detail-description'>{activeEvent.description}</p>
@@ -196,21 +194,22 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
                       {isAdmin ? (
                         <button
                           type='button'
-                          className='btn-detail-edit'
+                          className='btn-primary'
                           onClick={() => handleEditClick(activeEvent._id || activeEvent.id)}
                         >
-                          Edit Event
+                          <Edit size={16} /> Edit Event
                         </button>
                       ) : (
                         <button
                           type='button'
-                          className='btn-detail-signup'
+                          className='btn-primary'
                           onClick={handleOpenSignUpModal}
                           disabled={
                             (activeEvent.volunteersCurrent || 0) >=
                             (activeEvent.volunteersMax || 20)
                           }
                         >
+                          <UserCheck size={16} />
                           {(activeEvent.volunteersCurrent || 0) >= (activeEvent.volunteersMax || 20)
                             ? 'Event Full'
                             : 'Sign Up'}
@@ -221,15 +220,12 @@ function AvailableEvents({ events = [], loading = false, onSignUp }) {
 
                   <div className='detail-image-col'>
                     <img
-                      src={
-                        activeEvent.image ||
-                        'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800&q=80'
-                      }
+                      src={activeEvent.image || DEFAULT_IMAGE}
                       alt={activeEvent.title}
                       className='detail-large-img'
                     />
                   </div>
-                </div>
+                </main>
               )}
             </div>
           )}

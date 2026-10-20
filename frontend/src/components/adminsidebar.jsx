@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { User, Mail, Calendar, ChevronRight, Plus, Users, LogOut } from 'lucide-react';
+import LogoutModal from './LogoutModal.jsx';
 import '../css/adminsidebar.css';
-import LogoutModal from './logoutmodal';
 
-function AdminSidebar({ user, onLogout }) {
+function AdminSidebar({ user }) {
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const navigate = useNavigate();
   const [eventsOpen, setEventsOpen] = useState(true);
+  const navigate = useNavigate();
 
   const handleConfirmLogout = () => {
     localStorage.removeItem('token');
@@ -29,15 +30,15 @@ function AdminSidebar({ user, onLogout }) {
                 <img src={user.avatar} alt={user?.name || 'Admin'} className='admin-avatar-img' />
               ) : (
                 <div className='admin-avatar-fallback'>
-                  <i className='fi fi-sr-user'></i>
+                  <User size={32} />
                 </div>
               )}
             </div>
             <p className='admin-contact-item'>
-              <i className='fi fi-sr-user'></i> {user?.name || user?.fullName || 'Administrator'}
+              <User size={14} /> {user?.name || user?.fullName || 'Administrator'}
             </p>
             <p className='admin-contact-item'>
-              <i className='fi fi-sr-envelope'></i> {user?.email || 'admin@organization.org'}
+              <Mail size={14} /> {user?.email || 'admin@organization.org'}
             </p>
           </div>
 
@@ -49,16 +50,18 @@ function AdminSidebar({ user, onLogout }) {
                 onClick={() => setEventsOpen((prev) => !prev)}
               >
                 <div className='admin-menu-left'>
-                  <i className='fi fi-sr-calendar'></i>
+                  <Calendar size={16} />
                   <span>Events Management</span>
                 </div>
-                <span className={`admin-menu-arrow ${eventsOpen ? 'rotated' : ''}`}>›</span>
+                <span className={`admin-menu-arrow ${eventsOpen ? 'rotated' : ''}`}>
+                  <ChevronRight size={16} />
+                </span>
               </button>
 
               <div className={`admin-submenu-wrapper ${eventsOpen ? 'open' : ''}`}>
                 <div className='admin-submenu-inner'>
                   <NavLink to='/admin/events/create' className='admin-submenu-item'>
-                    <i className='fi fi-sr-plus'></i>
+                    <Plus size={14} />
                     <span>Create Event</span>
                   </NavLink>
                 </div>
@@ -70,10 +73,12 @@ function AdminSidebar({ user, onLogout }) {
               className={({ isActive }) => `admin-menu-item ${isActive ? 'active' : ''}`}
             >
               <div className='admin-menu-left'>
-                <i className='fi fi-sr-users-alt'></i>
+                <Users size={16} />
                 <span>Volunteers</span>
               </div>
-              <span className='admin-menu-arrow'>›</span>
+              <span className='admin-menu-arrow'>
+                <ChevronRight size={16} />
+              </span>
             </NavLink>
           </nav>
         </div>
@@ -84,11 +89,12 @@ function AdminSidebar({ user, onLogout }) {
           onClick={() => setIsLogoutModalOpen(true)}
         >
           <div className='admin-menu-left'>
-            <i className='fi fi-sr-sign-out-alt'></i>
+            <LogOut size={16} />
             <span>Log Out</span>
           </div>
         </button>
       </div>
+
       <LogoutModal
         isOpen={isLogoutModalOpen}
         onConfirm={handleConfirmLogout}

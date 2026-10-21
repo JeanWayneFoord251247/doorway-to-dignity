@@ -46,7 +46,7 @@
 
 ## Live Production Links
 
-<table border="1" width="100%">
+<table border="1">
   <tr>
     <th>Service</th>
     <th>Provider</th>

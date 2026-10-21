@@ -6,8 +6,8 @@
   --color-bg-sidebar: #0b4f6c;
   --color-avatar-bg: #e0f7fa;
   --color-avatar-icon: #00838f;
-  --color-text-white: #ffffff;
-  --color-text-subtle: #e0f7fa;
+  --color-text-white-admin: #ffffff;
+  --color-text-subtle-admin: #ffffff;
   --color-danger: #ef4444;
   --color-border-subtle: rgba(255, 255, 255, 0.15);
   --color-hover-bg: rgba(255, 255, 255, 0.1);
@@ -49,7 +49,7 @@
   font-family: var(--font-main);
   font-size: 22px;
   font-weight: 800;
-  color: var(--color-text-white);
+  color: var(--color-text-white-admin);
   margin: 0 0 16px 0;
   text-align: center;
 }
@@ -86,14 +86,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid var(--color-text-white);
+  border: 3px solid var(--color-text-white-admin);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   margin: 0 auto;
   box-sizing: border-box;
 }
 
 .admin-contact-item {
-  color: var(--color-text-subtle);
+  color: var(--color-text-white-admin);
   font-size: 11px;
   margin: 3px 0;
   display: flex;
@@ -125,7 +125,7 @@
   align-items: center;
   background: transparent;
   border: none;
-  color: var(--color-text-white);
+  color: var(--color-text-white-admin);
   padding: 10px 14px;
   border-radius: 12px;
   font-family: var(--font-main);
@@ -206,7 +206,7 @@
   padding: 8px 12px;
   font-size: 12px;
   font-weight: 500;
-  color: var(--color-text-subtle);
+  color: var(--color-text-subtle-admin);
   text-decoration: none;
   border-radius: 8px;
   opacity: 0;
@@ -232,6 +232,6 @@
 
 .admin-submenu-item:hover {
   background-color: var(--color-hover-bg-subtle);
-  color: var(--color-text-white);
+  color: var(--color-text-white-admin);
   transform: translateX(4px);
 }

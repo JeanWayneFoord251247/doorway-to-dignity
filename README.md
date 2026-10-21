@@ -84,6 +84,7 @@
 
 ## Project Structure
 
+```
 <p>backend/</p>
 <p>.ebextensions/         # AWS Elastic Beanstalk deployment config</p> 
 <p>middleware/            # Auth verification and route security (authMiddleware.js)</p> 
@@ -107,5 +108,7 @@
 <p>.env.production        # Production environment variables</p> 
 <p>index.html             # SEO meta tags</p> 
 <p>vite.config.js         # Vite build pipeline setup</p> 
+```
+
 
 ---

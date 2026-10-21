@@ -4,6 +4,6 @@
 
 # Doorway to Dignity
 
-> By the people, for the people
+> One Step at a Time, One Life at a Time.
 
 ---

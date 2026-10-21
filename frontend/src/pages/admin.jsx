@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../components/navbar.jsx';
 import AnimatedBackground from '../components/animatedbackground.jsx';
 import AdminSidebar from '../components/adminsidebar.jsx';
@@ -8,6 +8,26 @@ import Grainient from '../components/gradient.jsx';
 import AdminEventsManager from '../components/admineventsmanager.jsx';
 
 function AdminPage() {
+  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000';
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const fetchAllEvents = async () => {
+    try {
+      const res = await fetch(`${API_BASE}/api/events`);
+      if (!res.ok) throw new Error('Failed to load events');
+      const data = await res.json();
+      setEvents(data);
+    } catch (err) {
+      console.error('Error fetching events:', err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAllEvents();
+  }, []);
+
   return (
     <>
       <AnimatedBackground />
@@ -41,7 +61,7 @@ function AdminPage() {
         <main className='admin-container'>
           <div className='admin-top-grid'>
             <AdminSidebar />
-            <VolunteerCalendar />
+            <VolunteerCalendar events={events} />
           </div>
 
           <AdminEventsManager />

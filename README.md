@@ -35,12 +35,12 @@
 
 ## Features
 
--**Volunteer Event Discovery:** View public scheduled events, their detail, dates, and their locations. <br/>
--**Dynamic Sitemap Engine:** A full server-rendered CML Sitemap querying MongoDB collections for search engine indexing <br/>
--**Dual-Cloud Deployment:** Live deployment across AWS and Render with multi-origin CORS validation. <br/>
--**Role-Based Access Control:** Specific workflows for authenticated volunteers and administrative managers. <br/>
--**Google Search Console and SEO:** Domain-level DNS verification, custom Open Graph meta tags, canonical link headers, and robots.txt crawler policies. <br/>
--**GA4(Google Analytics 4) Pipeline:** Custom conversion event tracking (sign_up, modal engagements) with internal developer IP filtering. <br/>
+-**Volunteer Event Discovery:** View public scheduled events, their detail, dates, and their locations.  <br/>
+-**Dynamic Sitemap Engine:** A full server-rendered CML Sitemap querying MongoDB collections for search engine indexing  <br/>
+-**Dual-Cloud Deployment:** Live deployment across AWS and Render with multi-origin CORS validation.  <br/>
+-**Role-Based Access Control:** Specific workflows for authenticated volunteers and administrative managers.  <br/>
+-**Google Search Console and SEO:** Domain-level DNS verification, custom Open Graph meta tags, canonical link headers, and robots.txt crawler policies.  <br/>
+-**GA4(Google Analytics 4) Pipeline:** Custom conversion event tracking (sign_up, modal engagements) with internal developer IP filtering.  <br/>
 
 ---
 
@@ -84,28 +84,28 @@
 
 ## Project Structure
 
-backend/
-.ebextensions/         # AWS Elastic Beanstalk deployment config<br/>
-middleware/            # Auth verification and route security (authMiddleware.js)<br/>
-models/                # Mongoose data schemas (Event.js, Faq.js, User.js)<br/>
-routes/                # Express API endpoints (authRoutes.js, eventRoutes.js, faqRoutes.js)<br/>
-.env                   # Local environment variables<br/>
-procfile               # Elastic Beanstalk process definition<br/>
-server.js              # Express app, CORS configuration, and dynamic sitemap route<br/>
+<p>backend/</p>
+<p>.ebextensions/         # AWS Elastic Beanstalk deployment config</p> <br/>
+<p>middleware/            # Auth verification and route security (authMiddleware.js)</p> <br/>
+<p>models/                # Mongoose data schemas (Event.js, Faq.js, User.js)</p> <br/>
+<p>routes/                # Express API endpoints (authRoutes.js, eventRoutes.js, faqRoutes.js)</p> <br/>
+<p>.env                   # Local environment variables</p> <br/>
+<p>procfile               # Elastic Beanstalk process definition</p> <br/>
+<p>server.js              # Express app, CORS configuration, and dynamic sitemap route</p> <br/>
 
-frontend/<br/>
-public/                # Static assets served as-is (robots.txt, sitemap.xml, icons)<br/>
-src/<br/>
-─ assets/              # Static media (banner images, branding)<br/>
-─ components/          # Reusable UI components<br/>
-─ css/                 # Custom component stylesheets<br/>
-─ hooks/               # Custom React lifecycle hooks<br/>
-─ pages/               # Primary view routes (Home, Volunteer, FAQ, Login, Signup)<br/>
-─ App.jsx              # Main routing, navigation structure and GA4 initialization<br/>
-─ main.jsx             # React entry point <br/>
-.env.development       # Local environment variables<br/>
-.env.production        # Production environment variables<br/>
-index.html             # SEO meta tags<br/>
-vite.config.js         # Vite build pipeline setup<br/>
+<p>frontend/ <br/>
+<p>public/                # Static assets served as-is (robots.txt, sitemap.xml, icons)</p> <br/>
+<p>src/</p> <br/>
+<p>─ assets/              # Static media (banner images, branding)</p> <br/>
+<p>─ components/          # Reusable UI components</p> <br/>
+<p>─ css/                 # Custom component stylesheets</p> <br/>
+<p>─ hooks/               # Custom React lifecycle hooks</p> <br/>
+<p>─ pages/               # Primary view routes (Home, Volunteer, FAQ, Login, Signup)</p> <br/>
+<p>─ App.jsx              # Main routing, navigation structure and GA4 initialization</p> <br/>
+<p>─ main.jsx             # React entry point</p>  <br/>
+<p>.env.development       # Local environment variables</p> <br/>
+<p>.env.production        # Production environment variables</p> <br/>
+<p>index.html             # SEO meta tags</p> <br/>
+<p>vite.config.js         # Vite build pipeline setup</p> <br/>
 
 ---

@@ -85,27 +85,27 @@
 ## Project Structure
 
 <p>backend/</p>
-<p>.ebextensions/         # AWS Elastic Beanstalk deployment config</p> <br/>
-<p>middleware/            # Auth verification and route security (authMiddleware.js)</p> <br/>
-<p>models/                # Mongoose data schemas (Event.js, Faq.js, User.js)</p> <br/>
-<p>routes/                # Express API endpoints (authRoutes.js, eventRoutes.js, faqRoutes.js)</p> <br/>
-<p>.env                   # Local environment variables</p> <br/>
-<p>procfile               # Elastic Beanstalk process definition</p> <br/>
-<p>server.js              # Express app, CORS configuration, and dynamic sitemap route</p> <br/>
+<p>.ebextensions/         # AWS Elastic Beanstalk deployment config</p> 
+<p>middleware/            # Auth verification and route security (authMiddleware.js)</p> 
+<p>models/                # Mongoose data schemas (Event.js, Faq.js, User.js)</p> 
+<p>routes/                # Express API endpoints (authRoutes.js, eventRoutes.js, faqRoutes.js)</p> 
+<p>.env                   # Local environment variables</p> 
+<p>procfile               # Elastic Beanstalk process definition</p> 
+<p>server.js              # Express app, CORS configuration, and dynamic sitemap route</p> 
 
-<p>frontend/ <br/>
-<p>public/                # Static assets served as-is (robots.txt, sitemap.xml, icons)</p> <br/>
-<p>src/</p> <br/>
-<p>─ assets/              # Static media (banner images, branding)</p> <br/>
-<p>─ components/          # Reusable UI components</p> <br/>
-<p>─ css/                 # Custom component stylesheets</p> <br/>
-<p>─ hooks/               # Custom React lifecycle hooks</p> <br/>
-<p>─ pages/               # Primary view routes (Home, Volunteer, FAQ, Login, Signup)</p> <br/>
-<p>─ App.jsx              # Main routing, navigation structure and GA4 initialization</p> <br/>
-<p>─ main.jsx             # React entry point</p>  <br/>
-<p>.env.development       # Local environment variables</p> <br/>
-<p>.env.production        # Production environment variables</p> <br/>
-<p>index.html             # SEO meta tags</p> <br/>
-<p>vite.config.js         # Vite build pipeline setup</p> <br/>
+<p>frontend/ 
+<p>public/                # Static assets served as-is (robots.txt, sitemap.xml, icons)</p> 
+<p>src/</p> 
+<p>─ assets/              # Static media (banner images, branding)</p> 
+<p>─ components/          # Reusable UI components</p> 
+<p>─ css/                 # Custom component stylesheets</p> 
+<p>─ hooks/               # Custom React lifecycle hooks</p> 
+<p>─ pages/               # Primary view routes (Home, Volunteer, FAQ, Login, Signup)</p> 
+<p>─ App.jsx              # Main routing, navigation structure and GA4 initialization</p> 
+<p>─ main.jsx             # React entry point</p>  
+<p>.env.development       # Local environment variables</p> 
+<p>.env.production        # Production environment variables</p> 
+<p>index.html             # SEO meta tags</p> 
+<p>vite.config.js         # Vite build pipeline setup</p> 
 
 ---

@@ -81,3 +81,31 @@
 
 
 ---
+
+## Project Structure
+
+backend/
+.ebextensions/         # AWS Elastic Beanstalk deployment config<br/>
+middleware/            # Auth verification and route security (authMiddleware.js)<br/>
+models/                # Mongoose data schemas (Event.js, Faq.js, User.js)<br/>
+routes/                # Express API endpoints (authRoutes.js, eventRoutes.js, faqRoutes.js)<br/>
+.env                   # Local environment variables<br/>
+procfile               # Elastic Beanstalk process definition<br/>
+server.js              # Express app, CORS configuration, and dynamic sitemap route<br/>
+
+frontend/<br/>
+public/                # Static assets served as-is (robots.txt, sitemap.xml, icons)<br/>
+src/<br/>
+─ assets/              # Static media (banner images, branding)<br/>
+─ components/          # Reusable UI components<br/>
+─ css/                 # Custom component stylesheets<br/>
+─ hooks/               # Custom React lifecycle hooks<br/>
+─ pages/               # Primary view routes (Home, Volunteer, FAQ, Login, Signup)<br/>
+─ App.jsx              # Main routing, navigation structure and GA4 initialization<br/>
+─ main.jsx             # React entry point <br/>
+.env.development       # Local environment variables<br/>
+.env.production        # Production environment variables<br/>
+index.html             # SEO meta tags<br/>
+vite.config.js         # Vite build pipeline setup<br/>
+
+---

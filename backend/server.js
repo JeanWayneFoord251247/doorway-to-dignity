@@ -16,7 +16,6 @@ const allowedOrigins = [
   'https://www.doorwaytodignityow251247.co.za',
   'https://doorway-to-dignity-1.onrender.com',
   'http://localhost:5173',
-  'http://localhost:3000',
 ];
 
 app.use(

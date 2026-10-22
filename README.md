@@ -22,7 +22,7 @@
 >
 >-**Frontend Clients**
 >  - AWS Amplify: doorwaytodignityow251247.co.za
-> - Render: doorway-to-dignity-1.onrender.com
+>  - Render: doorway-to-dignity-1.onrender.com
 >
 >-**Backend Services**
 >  - AWS Elastic Beanstalk (Node.js/Express)
@@ -108,7 +108,7 @@ src/
 .env.production        # Production environment variables
 index.html             # SEO meta tags
 vite.config.js         # Vite build pipeline setup
-```
 
+```
 
 ---

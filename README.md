@@ -20,27 +20,27 @@
 ## Architecture Overview
 
 >
->-**Frontend Clients**
+>**Frontend Clients**
 >  - AWS Amplify: doorwaytodignityow251247.co.za
 >  - Render: doorway-to-dignity-1.onrender.com
 >
->-**Backend Services**
+>**Backend Services**
 >  - AWS Elastic Beanstalk (Node.js/Express)
 >  - Render Web Services (Node.js/Express)
 >
->-**Database Cluster**
+>**Database Cluster**
 >  - MongoDB Atlas (Cloud)
 
 ---
 
 ## Features
 
--**Volunteer Event Discovery:** View public scheduled events, their detail, dates, and their locations.  <br/>
--**Dynamic Sitemap Engine:** A full server-rendered CML Sitemap querying MongoDB collections for search engine indexing  <br/>
--**Dual-Cloud Deployment:** Live deployment across AWS and Render with multi-origin CORS validation.  <br/>
--**Role-Based Access Control:** Specific workflows for authenticated volunteers and administrative managers.  <br/>
--**Google Search Console and SEO:** Domain-level DNS verification, custom Open Graph meta tags, canonical link headers, and robots.txt crawler policies.  <br/>
--**GA4(Google Analytics 4) Pipeline:** Custom conversion event tracking (sign_up, modal engagements) with internal developer IP filtering.  <br/>
+- **Volunteer Event Discovery:** View public scheduled events, their detail, dates, and their locations.  <br/>
+- **Dynamic Sitemap Engine:** A full server-rendered CML Sitemap querying MongoDB collections for search engine indexing  <br/>
+- **Dual-Cloud Deployment:** Live deployment across AWS and Render with multi-origin CORS validation.  <br/>
+- **Role-Based Access Control:** Specific workflows for authenticated volunteers and administrative managers.  <br/>
+- **Google Search Console and SEO:** Domain-level DNS verification, custom Open Graph meta tags, canonical link headers, and robots.txt crawler policies.  <br/>
+- **GA4(Google Analytics 4) Pipeline:** Custom conversion event tracking (sign_up, modal engagements) with internal developer IP filtering.  <br/>
 
 ---
 
@@ -112,3 +112,76 @@ vite.config.js         # Vite build pipeline setup
 ```
 
 ---
+
+## Local Development Setup
+
+1. Prerequisites
+   
+   - Node.js (v18 or v20)
+   - npm
+   - MongoDB Atlas cluster
+
+3. Backend Setup
+
+```
+    cd backend
+    npm install
+    nodemon server.js
+```
+
+3. Frontend Setup
+
+```
+    cd frontend
+    npm install
+    npm run dev
+```
+
+---
+
+## Deployment Configuration Notes
+
+### Single Page Application (SPA) Rewrites
+
+#### AWS Amplify
+Added rewrite rules mapping `/sitemap.xml` directly to target resources, with negative lookaheads redirecting remaining web document requests to `/index.html` to preserve client-side routing.
+
+#### Render
+I implemented an explicit rewrite rule in the Render dashboard:
+* **Source:** `/*`
+* **Destination:** `/index.html`
+* **Action:** Rewrite (200)
+
+---
+
+## Cross-Origin Resource Sharing (CORS)
+
+`backend/server.js` maintains an explicit whitelist to handle requests and preflight `OPTIONS` calls across domains:
+
+```
+const allowedOrigins = [
+  'https://doorwaytodignityow251247.co.za',
+  'https://www.doorwaytodignityow251247.co.za',
+  'https://doorway-to-dignity-1.onrender.com',
+  'http://localhost:5173',
+];
+```
+
+## Mockups
+
+<p align="center">
+  <img src="./assets/img/laptop.png" alt="Doorway Desktop" width="100%" />
+</p>
+
+<p align="center">
+  <img src="./assets/img/tablet.png" alt="Doorway Tablet" width="100%" />
+</p>
+
+<p align="center">
+  <img src="./assets/img/phone.png" alt="Doorway Smartphone" width="100%" />
+</p>
+
+---
+
+
+

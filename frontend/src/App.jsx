@@ -35,6 +35,14 @@ function App() {
           }
         />
         <Route
+          path='/volunteer-search'
+          element={
+            <ProtectedRoute>
+              <Volunteers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path='/account'
           element={
             <ProtectedRoute>
@@ -50,6 +58,12 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route path='/admin/events/create' element={<EventEditor isEdit={false} />} />
+
+        <Route path='/admin/events/edit/:id' element={<EventEditor isEdit={true} />} />
+
+        <Route path='/admin/create-event' element={<EventEditor isEdit={false} />} />
       </Routes>
 
       <CookieBanner />

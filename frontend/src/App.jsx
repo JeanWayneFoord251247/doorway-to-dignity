@@ -14,7 +14,7 @@ import { useAutoLogout } from './hooks/useautologout.jsx';
 import CookieBanner from './components/cookiebanner.jsx';
 
 function App() {
-  useAutoLogout(15);
+  useAutoLogout(1);
 
   return (
     <div className='app-container'>

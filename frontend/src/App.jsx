@@ -12,6 +12,7 @@ import FAQ from './pages/faq.jsx';
 import StudentDisclaimerModal from './components/studentdisclaimer.jsx';
 import { useAutoLogout } from './hooks/useautologout.jsx';
 import CookieBanner from './components/cookiebanner.jsx';
+import ProtectedRoute from './components/protectedroute.jsx';
 
 function App() {
   useAutoLogout(15);
@@ -23,19 +24,32 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/signup' element={<Signup />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/volunteer' element={<Volunteer />} />
-        <Route path='/admin' element={<Admin />} />
-
-        <Route path='/admin/events/create' element={<EventEditor isEdit={false} />} />
-        <Route path='/admin/events/edit/:id' element={<EventEditor isEdit={true} />} />
-
-        <Route path='/admin/create-event' element={<EventEditor isEdit={false} />} />
-
-        <Route path='/account' element={<Account />} />
-
-        <Route path='/admin/volunteers' element={<Volunteers />} />
-
         <Route path='/faq' element={<FAQ />} />
+
+        <Route
+          path='/volunteer'
+          element={
+            <ProtectedRoute>
+              <Volunteer />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/account'
+          element={
+            <ProtectedRoute>
+              <Account />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/admin'
+          element={
+            <ProtectedRoute requiredRole='admin'>
+              <Admin />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       <CookieBanner />

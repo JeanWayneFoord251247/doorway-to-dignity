@@ -35,6 +35,16 @@
 
 ---
 
+## Designed By
+
+- Shanae Van Eeden, 251010
+- Lesedi Chocho, 252073
+- Dihan Janse van Rensburg, 251030
+- Justin Dubbelman, 251227
+- René Mtshatsheni, 251126
+
+---
+
 ## Features
 
 - **Volunteer Event Discovery:** View public scheduled events, their detail, dates, and their locations. <br/>
@@ -87,12 +97,10 @@
 
 ```
 backend/</p>
-.ebextensions/         # AWS Elastic Beanstalk deployment config
 middleware/            # Auth verification and route security (authMiddleware.js)
 models/                # Mongoose data schemas (Event.js, Faq.js, User.js)
 routes/                # Express API endpoints (authRoutes.js, eventRoutes.js, faqRoutes.js)
 .env                   # Local environment variables
-procfile               # Elastic Beanstalk process definition
 server.js              # Express app, CORS configuration, and dynamic sitemap route
 
 frontend/
@@ -185,3 +193,7 @@ const allowedOrigins = [
 </p>
 
 ---
+
+## Documentation
+
+

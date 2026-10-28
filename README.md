@@ -5,7 +5,7 @@
 <h1 align="center">Doorway to Dignity</h1>
 
 <p align="center">
-  <em>One Step at a Time, One Life at a Time.</em>
+  <em>Hope begins with one act of kindness. Dignity begins with all of us.</em>
 </p>
 
 <p align="center">
